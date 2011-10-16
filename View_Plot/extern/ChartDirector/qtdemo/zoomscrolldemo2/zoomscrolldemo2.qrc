@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>pointer.png</file>
+        <file>zoomin.png</file>
+        <file>zoomout.png</file>
+        <file>upleftarrow.ico</file>
+        <file>uparrow.ico</file>
+        <file>uprightarrow.ico</file>
+        <file>leftarrow.ico</file>
+        <file>dot.ico</file>
+        <file>rightarrow.ico</file>
+        <file>downleftarrow.ico</file>
+        <file>downarrow.ico</file>
+        <file>downrightarrow.ico</file>
+    </qresource>
+</RCC>

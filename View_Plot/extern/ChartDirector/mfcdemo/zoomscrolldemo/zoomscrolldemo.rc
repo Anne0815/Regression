@@ -1,0 +1,223 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\zoomscrolldemo.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\zoomscrolldemo.ico"
+IDI_PointerPB           ICON    DISCARDABLE     "res\\pointerPB.ico"
+IDI_ZoomOutPB           ICON    DISCARDABLE     "res\\zoomOutPB.ico"
+IDI_ZoomInPB            ICON    DISCARDABLE     "res\\zoomInPB.ico"
+IDI_XZoomPB             ICON    DISCARDABLE     "res\\xzoomPB.ico"
+IDI_XYZoomPB            ICON    DISCARDABLE     "res\\xyzoomPB.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ZOOMSCROLLDEMO_DIALOG DIALOGEX 0, 0, 508, 204
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "ChartDirector Zooming and Scrolling Demonstration"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Duration (Days)",IDC_STATIC,8,148,68,12,SS_CENTERIMAGE
+    CONTROL         "Start Date",IDC_STATIC,"Static",SS_LEFTNOWORDWRAP | 
+                    SS_CENTERIMAGE | WS_GROUP,8,116,68,11
+    CONTROL         "",IDC_ChartViewer,"Static",SS_BITMAP,92,4,15,13
+    CONTROL         "Pointer",IDC_PointerPB,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE | WS_GROUP,8,8,76,16
+    CONTROL         "Zoom In",IDC_ZoomInPB,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE,8,24,76,16
+    CONTROL         "Zoom Out",IDC_ZoomOutPB,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE,8,40,76,16
+    CONTROL         "X Zoom / Y Auto",IDC_XZoomPB,"Button",
+                    BS_AUTORADIOBUTTON | BS_ICON | BS_PUSHLIKE | WS_GROUP,8,
+                    76,76,16
+    CONTROL         "XY Zoom",IDC_XYZoomPB,"Button",BS_AUTORADIOBUTTON | 
+                    BS_ICON | BS_PUSHLIKE,8,92,76,16
+    CONTROL         "DateTimePicker1",IDC_StartDate,"SysDateTimePick32",
+                    DTS_RIGHTALIGN | WS_TABSTOP,8,128,76,12
+    COMBOBOX        IDC_Duration,8,160,76,88,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    SCROLLBAR       IDC_HScrollBar,92,192,404,10
+    SCROLLBAR       IDC_VScrollBar,496,0,11,192,SBS_VERT
+    CONTROL         "",IDC_STATIC,"Static",SS_ETCHEDFRAME,3,1,85,201
+    GROUPBOX        "",IDC_STATIC,4,72,84,40,NOT WS_VISIBLE
+    LTEXT           "Zoom Mode",IDC_STATIC,8,64,72,12,SS_CENTERIMAGE
+END
+
+IDD_HOTSPOTPARAM DIALOG DISCARDABLE  0, 0, 228, 158
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Hot Spot Properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,90,137,50,14
+    CONTROL         "List1",IDC_PARAMLIST,"SysListView32",LVS_REPORT | 
+                    WS_BORDER | WS_TABSTOP,7,7,213,127
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "zoomscrolldemo MFC Application\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "zoomscrolldemo\0"
+            VALUE "LegalCopyright", "Copyright (C) 2006\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "zoomscrolldemo.EXE\0"
+            VALUE "ProductName", "zoomscrolldemo Application\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_ZOOMSCROLLDEMO_DIALOG DLGINIT
+BEGIN
+    IDC_Duration, 0x403, 3, 0
+0x3031, "\000" 
+    IDC_Duration, 0x403, 3, 0
+0x3032, "\000" 
+    IDC_Duration, 0x403, 3, 0
+0x3033, "\000" 
+    IDC_Duration, 0x403, 3, 0
+0x3036, "\000" 
+    IDC_Duration, 0x403, 3, 0
+0x3039, "\000" 
+    IDC_Duration, 0x403, 4, 0
+0x3831, 0x0030, 
+    IDC_Duration, 0x403, 4, 0
+0x3633, 0x0030, 
+    IDC_Duration, 0x403, 4, 0
+0x3237, 0x0030, 
+    IDC_Duration, 0x403, 5, 0
+0x3031, 0x3038, "\000" 
+    IDC_Duration, 0x403, 5, 0
+0x3431, 0x3034, "\000" 
+    0
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif //_WIN32
+#include "res\zoomscrolldemo.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

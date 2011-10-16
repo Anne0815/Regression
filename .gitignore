@@ -63,7 +63,7 @@ _ReSharper
 #
 #ChartDirector
 #
-ChartDirector
+[Cc]hartDirector/*
  
 #
 # Microsoft Office Temp Files

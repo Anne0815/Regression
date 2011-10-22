@@ -1,7 +1,6 @@
 #include "UnitTesting.h"
 #include <iostream>
 
-
 /*
 erwartete Ausgabe:
 xValues: 5, 12, 34, 108,...
@@ -25,7 +24,7 @@ void UnitTesting::test_createLookUpTables()
 	vector<float> tValues = linRegr.getTValues();
 
 	cout << "X_Values: " << endl;
-	for(int i = 0; i < m; ++i)
+	for(unsigned int i = 0; i < m; ++i)
 		cout << xValues[i] << ", ";
 
 	cout << endl;

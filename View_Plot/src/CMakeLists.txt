@@ -1,6 +1,10 @@
 
 cmake_minimum_required (VERSION 2.6)
-project (View_Plot)
+project (Regression)
+
+# variablen
+
+set( EXTERN_DIR "${CMAKE_SOURCE_DIR}/../extern" )
 
 find_package( Qt4 4.6 COMPONENTS QtCore QtGui QtNetwork REQUIRED )
 
@@ -16,20 +20,29 @@ ENDIF( ${CMAKE_GENERATOR} STREQUAL "Visual Studio 10" )
 
 ENDIF( ( WIN32 OR WIN64 ) AND NOT UNIX )
 
-SET( CHARD_DIR ${CMAKE_SOURCE_DIR}/../extern/ChartDirector/include/ )
+#SET( CHARD_DIR ${CMAKE_SOURCE_DIR}/../extern/ChartDirector/include/ )
+SET( CHARD_DIR ${EXTERN_DIR}/ChartDirector/include/ )
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CHARD_DIR})
+
+link_directories( "${EXTERN_DIR}/ChartDirector/lib" )
 
 SET( MOC_HDRS QViewChart.h )
 QT4_WRAP_CPP( MOC_SRCS ${MOC_HDRS} )
 
-SET( HEADER ChartDirector.h ${MOC_HDRS} )
-SET( SOURCE ChartDirector.cpp main.cpp QViewChart.cpp ${MOC_SRCS})
+SET( VIEW_HDRS ChartDirector.h ${MOC_HDRS} )
+SET( VIEW_SRCS ChartDirector.cpp main.cpp QViewChart.cpp ${MOC_SRCS})
+
+SET( REGR_HDRS Dll.h LinearRegression.h UnitTesting.h )
+SET( REGR_SRCS LinearRegression.cpp UnitTesting.cpp )
 
 
 LINK_LIBRARIES( ${QT_QTMAIN_LIBRARY} )
 
-add_executable (View_Plot ${HEADER} ${SOURCE}  )
-target_link_libraries(View_Plot ${QT_LIBRARIES} chartdir50.dll)
+add_library(LinearRegression SHARED ${REGR_HDRS} ${REGR_SRCS})
+target_link_libraries(LinearRegression)
+
+add_executable (View_Plot ${VIEW_HDRS} ${VIEW_SRCS}  )
+target_link_libraries(View_Plot LinearRegression ${QT_LIBRARIES} chartdir50.dll)
 
 
 INCLUDE(InstallRequiredSystemLibraries)

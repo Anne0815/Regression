@@ -32,14 +32,14 @@ QT4_WRAP_CPP( MOC_SRCS ${MOC_HDRS} )
 SET( VIEW_HDRS ChartDirector.h ${MOC_HDRS} )
 SET( VIEW_SRCS ChartDirector.cpp main.cpp QViewChart.cpp ${MOC_SRCS})
 
-SET( REGR_HDRS Dll.h LinearRegression.h UnitTesting.h )
-SET( REGR_SRCS LinearRegression.cpp UnitTesting.cpp )
+SET( REGR_HDRS Dll.h DataImporter.h LinearRegression.h UnitTesting.h )
+SET( REGR_SRCS DataImporter.cpp LinearRegression.cpp UnitTesting.cpp )
 
 
 LINK_LIBRARIES( ${QT_QTMAIN_LIBRARY} )
 
 add_library(LinearRegression SHARED ${REGR_HDRS} ${REGR_SRCS})
-target_link_libraries(LinearRegression)
+target_link_libraries(LinearRegression ${QT_LIBRARIES} )
 
 add_executable (View_Plot ${VIEW_HDRS} ${VIEW_SRCS}  )
 target_link_libraries(View_Plot LinearRegression ${QT_LIBRARIES} chartdir50.dll)

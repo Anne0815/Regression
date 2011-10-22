@@ -15,7 +15,9 @@ int main(int argc, char *argv[])
    view.show();
 
    UnitTesting ui;
-   ui.test_createMatrixLinearEquationsSystem();
+   //ui.test_createLookUpTables();
+   //ui.test_createMatrixLinearEquationsSystem();
+   ui.test_getDataPoints();
 
    return app.exec();
 }

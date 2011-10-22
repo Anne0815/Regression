@@ -63,3 +63,22 @@ void UnitTesting::test_createMatrixLinearEquationsSystem()
 		cout << endl;
 	}
 }
+
+/*
+Erwartete Ausgabe:
+3 7
+2 8
+3 9
+3 8
+*/
+void UnitTesting::test_getDataPoints()
+{
+	QString path = "test.txt";
+	vector<Datepoint> dataPoints;
+
+	DataImporter importer;
+	importer.getDatePoints(path, dataPoints);
+
+	for(int i = 0; i < dataPoints.size(); ++i)
+		cout << dataPoints[i].x << " " << dataPoints[i].t << endl;
+}

@@ -3,6 +3,7 @@
 
 #include "Dll.h"
 #include "LinearRegression.h" 
+#include "DataImporter.h"
 
 class UnitTesting
 {
@@ -12,6 +13,8 @@ public:
 
 	DLL void test_createLookUpTables();
 	DLL void test_createMatrixLinearEquationsSystem();
+
+	DLL void test_getDataPoints();
 
 private:
 	typedef LinearRegression::DatePoint Datepoint;

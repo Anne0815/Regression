@@ -3,6 +3,7 @@
 #include "ChartDirector.h"
 #include "QViewChart.h"
 #include "DataImporter.h"
+#include "DataGenerator.h"
 
 #include "UnitTesting.h"
 
@@ -22,22 +23,38 @@ int main(int argc, char *argv[])
    QViewChart view;
   
    view.show();
-   QString filename = view.openDirectory();
+   
+   vector<DataPoint> dataPoints;
+   unsigned int number;
 
    // get data points from file
-   vector<DataPoint> dataPoints;
-   DataImporter importer;
-   importer.getDataPoints(filename, dataPoints);
+   //QString filename = view.openDirectory();
+   //DataImporter importer;
+   //importer.getDataPoints(filename, dataPoints);
+   //number = dataPoints.size();
+
+   // get data points from generator
+   DataGenerator generator;
+   number = 10;
+   generator.generateDataSin(number, dataPoints);
 
    // chartdirector expected double pointer
-   unsigned int number = dataPoints.size();
    double* xValues = new double[number];
    double* tValues = new double[number];
    datapoints2doublepointer(dataPoints, xValues, tValues);
 
    // create and show chart
    ChartDirector chartdir;
-   view.setChart( chartdir.createChart(xValues, tValues, number) );
+   XYChart chart(1, 1);
+   chartdir.createChart(chart, xValues, tValues, number);
+   //view.setChart( chart );
+
+   // second data set
+   dataPoints.clear();
+   generator.generateDataSinNoise(number, dataPoints);
+   datapoints2doublepointer(dataPoints, xValues, tValues);
+   chartdir.addPlot(chart, xValues, tValues, number);
+   view.setChart( &chart );
 
    // testing
    //UnitTesting ui;

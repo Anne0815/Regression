@@ -13,16 +13,12 @@ public:
 	ChartDirector(){}
 	virtual ~ChartDirector(){};
 
-	XYChart* createChart(double* xValues, double* tValues, unsigned int& number);
-	XYChart* createChart();
+	void createChart(XYChart& chart, double* xValues, double* tValues, unsigned int& number);
+	void addPlot( XYChart& chart, double* xValues, double* tValues, unsigned int& number);
 
 
 private:
 
-	//void datapoints2doublepointer(vector<DataPoint> datapoints, double x[], double t[]);
-
-	XYChart* test();
-	XYChart* splinefitting();
-	XYChart* curve();
 };
+
 #endif

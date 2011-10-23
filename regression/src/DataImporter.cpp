@@ -23,8 +23,8 @@ void DataImporter::getDataPoints( QString& path, vector<DataPoint>& data )
 		QString second = list.at(1);
 
 		bool ok_x, ok_y;
-		float x = first.toFloat(&ok_x);
-		float y = second.toFloat(&ok_y);
+		double x = first.toDouble(&ok_x);
+		double y = second.toDouble(&ok_y);
 
 		if( ok_x && ok_y )
 		{

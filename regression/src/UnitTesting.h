@@ -1,10 +1,9 @@
 #ifndef UNITTESTING
 #define UNITTESTING
 
+#include <QString>
 #include "global.h"
 #include "Dll.h"
-#include "LinearRegression.h" 
-#include "DataImporter.h"
 
 class UnitTesting
 {
@@ -16,6 +15,9 @@ public:
 	DLL void test_createMatrixLinearEquationsSystem();
 
 	DLL void test_getDataPoints(QString& path);
+
+	DLL void test_determinant();
+	DLL void test_solveLinearEquation();
 
 private:
 };

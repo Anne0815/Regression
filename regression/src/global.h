@@ -7,13 +7,13 @@
 using namespace std;
 
 struct DataPoint{
-		float x;
-		float t;
+		double x;
+		double t;
 		DataPoint()
 		{
 			x = 0.0, t = 0.0;
 		}
-		DataPoint(float x, float t)
+		DataPoint(double x, double t)
 		{
 			this->x = x;
 			this->t = t;
@@ -22,7 +22,7 @@ struct DataPoint{
 	};
 
 /*
-void datapoints2floatpointer(vector<DataPoint> datapoints, float* x, float* t)
+void datapoints2floatpointer(vector<DataPoint> datapoints, double* x, double* t)
 {
 	for( unsigned int i = 0; i < datapoints.size(); ++i )
 	{

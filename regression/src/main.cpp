@@ -16,55 +16,65 @@ void datapoints2doublepointer(vector<DataPoint> datapoints, double* x, double* t
 	}
 }
 
+void unittesting()
+{
+	UnitTesting ui;
+   
+	//ui.test_createLookUpTables();
+    //ui.test_createMatrixLinearEquationsSystem();
+    //ui.test_getDataPoints(filename);
+	//ui.test_determinant();
+	ui.test_solveLinearEquation();
+}
+
+void graphic()
+{
+	QViewChart view;
+  
+	view.show();
+   
+	vector<DataPoint> dataPoints;
+	unsigned int number;
+
+	// get data points from file
+	//QString filename = view.openDirectory();
+	//DataImporter importer;
+	//importer.getDataPoints(filename, dataPoints);
+	//number = dataPoints.size();
+
+	// get data points from generator
+	DataGenerator generator;
+	number = 10;
+	generator.generateDataSin(number, dataPoints);
+
+	// chartdirector expected double pointer
+	double* xValues = new double[number];
+	double* tValues = new double[number];
+	datapoints2doublepointer(dataPoints, xValues, tValues);
+
+	// create and show chart
+	ChartDirector chartdir;
+	XYChart chart(1, 1);
+	chartdir.createChart(chart, xValues, tValues, number);
+
+	// second data set
+	dataPoints.clear();
+	generator.generateDataSinNoise(number, dataPoints);
+	datapoints2doublepointer(dataPoints, xValues, tValues);
+	chartdir.addPlot(chart, xValues, tValues, number);
+   
+	view.setChart( &chart );
+
+	delete[] xValues, tValues;
+}
+
 int main(int argc, char *argv[])
 {
    QApplication app(argc, argv);
 
-   QViewChart view;
-  
-   view.show();
+   //graphic();
+   unittesting();
    
-   vector<DataPoint> dataPoints;
-   unsigned int number;
-
-   // get data points from file
-   //QString filename = view.openDirectory();
-   //DataImporter importer;
-   //importer.getDataPoints(filename, dataPoints);
-   //number = dataPoints.size();
-
-   // get data points from generator
-   DataGenerator generator;
-   number = 10;
-   generator.generateDataSin(number, dataPoints);
-
-   // chartdirector expected double pointer
-   double* xValues = new double[number];
-   double* tValues = new double[number];
-   datapoints2doublepointer(dataPoints, xValues, tValues);
-
-   // create and show chart
-   ChartDirector chartdir;
-   XYChart chart(1, 1);
-   chartdir.createChart(chart, xValues, tValues, number);
-
-   
-   // second data set
-   dataPoints.clear();
-   generator.generateDataSinNoise(number, dataPoints);
-   datapoints2doublepointer(dataPoints, xValues, tValues);
-   chartdir.addPlot(chart, xValues, tValues, number);
-   
-
-   // testing
-   //UnitTesting ui;
-   //ui.test_createLookUpTables();
-   //ui.test_createMatrixLinearEquationsSystem();
-   //ui.test_getDataPoints(filename);
-
-   view.setChart( &chart );
-
-   delete[] xValues, tValues;
    return app.exec();
 }
 

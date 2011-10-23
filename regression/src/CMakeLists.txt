@@ -32,8 +32,8 @@ QT4_WRAP_CPP( MOC_SRCS ${MOC_HDRS} )
 SET( VIEW_HDRS ChartDirector.h ${MOC_HDRS} )
 SET( VIEW_SRCS ChartDirector.cpp main.cpp QViewChart.cpp ${MOC_SRCS})
 
-SET( REGR_HDRS DataGenerator.h DataImporter.h Dll.h global.h LinearRegression.h UnitTesting.h )
-SET( REGR_SRCS DataGenerator.cpp DataImporter.cpp LinearRegression.cpp UnitTesting.cpp )
+SET( REGR_HDRS DataGenerator.h DataImporter.h Dll.h global.h LinearEquation.h LinearRegression.h UnitTesting.h )
+SET( REGR_SRCS DataGenerator.cpp DataImporter.cpp LinearEquation.cpp LinearRegression.cpp UnitTesting.cpp )
 
 
 LINK_LIBRARIES( ${QT_QTMAIN_LIBRARY} )

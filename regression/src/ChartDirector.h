@@ -16,10 +16,8 @@ public:
 	void createChart(XYChart& chart, double* xValues, double* tValues, unsigned int& number);
 	void addPlot( XYChart& chart, double* xValues, double* tValues, unsigned int& number);
 
-
-private:
 	void addCurve(XYChart& chart, double* xValues, double* tValues, unsigned int& number);
-	void addLine(XYChart& chart, double* xValues, double* tValues, unsigned int& number);
+	void addLine(XYChart& chart, double* xValues, double* tValues, unsigned int& number, int color);
 };
 
 #endif

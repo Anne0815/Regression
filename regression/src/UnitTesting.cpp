@@ -20,9 +20,9 @@ void UnitTesting::test_createLookUpTables()
 	dataPoints.push_back(DataPoint(2.0, 4.0));
 
 	unsigned int m = 4;
-	LinearRegression linRegr(m, dataPoints);
+	LinearRegression linRegr;
 
-	linRegr.createLookUpTables();
+	linRegr.createLookUpTables(dataPoints);
 
 	vector<double> xValues = linRegr.getXValues();
 	vector<double> tValues = linRegr.getTValues();
@@ -53,12 +53,11 @@ void UnitTesting::test_createMatrixLinearEquationsSystem()
 	dataPoints.push_back(DataPoint(1.0, 1.0));
 	dataPoints.push_back(DataPoint(2.0, 4.0));
 
-	LinearRegression linRegr(m, dataPoints);
+	LinearRegression linRegr;
 
-	linRegr.createLookUpTables();
-	linRegr.createMatrixLinearEquationsSystem();
+	linRegr.createMatrixLinearEquationsSystem(dataPoints, m);
 
-	double** matrix = linRegr.getMatrix();
+	vector< vector<double> > matrix = linRegr.getMatrix();
 
 	for( int c = 0; c < m; ++c )
 	{

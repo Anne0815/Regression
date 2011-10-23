@@ -8,7 +8,6 @@ void ChartDirector::createChart(XYChart& chart, double* xValues, double* tValues
 	// init plot area
 	chart.setPlotArea( 50, 50, 540, 360, 0xc0c0c0, -1, 0xc0c0c0, 0xffffff, -1);
 
-
 	// Add a legend box with the top center point anchored at (270, 30). Use
     // horizontal layout. Use 10 pts Arial Bold Italic font. Set the background and
     // border color to Transparent.
@@ -30,6 +29,8 @@ void ChartDirector::createChart(XYChart& chart, double* xValues, double* tValues
 	DoubleArray xd(xValues, number);
     DoubleArray td(tValues, number);
 	chart.addScatterLayer(xd, td, "Measurement", Chart::CircleShape, 5, 0x00ff00);
+
+	addCurve(chart, xValues, tValues, number);
 }
 
 void ChartDirector::addPlot(XYChart& chart, double* xValues, double* tValues, unsigned int& number)
@@ -38,4 +39,23 @@ void ChartDirector::addPlot(XYChart& chart, double* xValues, double* tValues, un
 	DoubleArray xd(xValues, number);
     DoubleArray td(tValues, number);
 	chart.addScatterLayer(xd, td, "Measurement", Chart::CircleShape, 5, 0x000000);
+	addLine(chart, xValues, tValues, number);
+}
+
+void ChartDirector::addCurve(XYChart& chart, double* xValues, double* tValues, unsigned int& number)
+{
+	SplineLayer* spline = chart.addSplineLayer();
+	DoubleArray xd(xValues, number);
+	DoubleArray td(tValues, number);
+	spline->setXData(xd);
+	spline->addDataSet(td, 0xffff00, "Curve");
+}
+
+void ChartDirector::addLine(XYChart& chart, double* xValues, double* tValues, unsigned int& number)
+{
+	LineLayer* line = chart.addLineLayer();
+	DoubleArray xd(xValues, number);
+	DoubleArray td(tValues, number);
+	line->setXData(xd);
+	line->addDataSet(td, 0x0000ff, "Line");
 }

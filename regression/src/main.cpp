@@ -47,20 +47,22 @@ int main(int argc, char *argv[])
    ChartDirector chartdir;
    XYChart chart(1, 1);
    chartdir.createChart(chart, xValues, tValues, number);
-   //view.setChart( chart );
 
+   
    // second data set
    dataPoints.clear();
    generator.generateDataSinNoise(number, dataPoints);
    datapoints2doublepointer(dataPoints, xValues, tValues);
    chartdir.addPlot(chart, xValues, tValues, number);
-   view.setChart( &chart );
+   
 
    // testing
    //UnitTesting ui;
    //ui.test_createLookUpTables();
    //ui.test_createMatrixLinearEquationsSystem();
    //ui.test_getDataPoints(filename);
+
+   view.setChart( &chart );
 
    delete[] xValues, tValues;
    return app.exec();

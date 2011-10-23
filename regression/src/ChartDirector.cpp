@@ -1,7 +1,10 @@
 #include "ChartDirector.h"
 
-XYChart* ChartDirector::createChart(double xValues[], double tValues[], unsigned int& number)
+XYChart* ChartDirector::createChart(double* xValues, double* tValues, unsigned int& number)
 {
+	//double xValues[4];
+	//double tValues[4];
+	//datapoints2doublepointer(dataPoints, xValues, tValues);
 	// create a XYChart object, optionally layout properties
 	XYChart *c = new XYChart(640, 480);
 	c->setBackground(0xa0a0a0);
@@ -28,9 +31,9 @@ XYChart* ChartDirector::createChart(double xValues[], double tValues[], unsigned
     c->xAxis()->setWidth(1);
 
     // add a scatter layer
-    c->addScatterLayer(DoubleArray(xValues, sizeof(xValues)/sizeof(xValues[0])),
-					   DoubleArray(tValues, sizeof(tValues)/sizeof(tValues[0])), "Measurement",
-					   Chart::CircleShape, 10, 0x000000);
+	DoubleArray xd(xValues, number);
+    DoubleArray td(tValues, number);
+	c->addScatterLayer(xd, td, "Measurement", Chart::CircleShape, 10, 0x000000);
 
 	// Output the chart
     //c->makeChart("paramcurve.png");
@@ -38,6 +41,16 @@ XYChart* ChartDirector::createChart(double xValues[], double tValues[], unsigned
     //free up resources
     return c;
 }
+/*
+void ChartDirector::datapoints2doublepointer(vector<DataPoint> datapoints, double x[], double t[])
+{
+	for( int i = 0; i < datapoints.size(); ++i )
+	{
+		x[i] = (double)(datapoints[i].x);
+		t[i] = (double)(datapoints[i].t);
+	}
+}
+*/
 
 XYChart* ChartDirector::createChart()
 {
@@ -79,10 +92,12 @@ XYChart* ChartDirector::createChart()
     c->yAxis()->setWidth(1);
     c->xAxis()->setWidth(1);
 
-    // Add a scatter layer using (dataX, dataY)
-    c->addScatterLayer(DoubleArray(test_dataX, sizeof(test_dataX)/sizeof(test_dataX[0])),
-					   DoubleArray(test_dataY, sizeof(test_dataY)/sizeof(test_dataY[0])), "Measurement",
-					   Chart::CircleShape, 5, 0x000000);
+	// add a scatter layer
+	int sizePointer = sizeof(test_dataX);
+	int sizeElement = sizeof(test_dataX[0]);
+	DoubleArray xd(test_dataX, sizePointer / sizeElement);
+    DoubleArray td(test_dataY, sizeof(test_dataY)/sizeof(test_dataY[0]));
+	c->addScatterLayer(xd, td, "Measurement", Chart::CircleShape, 10, 0x000000);
 
 	// Output the chart
     //c->makeChart("paramcurve.png");

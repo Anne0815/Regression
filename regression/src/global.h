@@ -2,6 +2,7 @@
 #define GLOBAL_H
 
 #include <vector>
+#include "Dll.h"
 
 using namespace std;
 
@@ -30,7 +31,9 @@ void datapoints2floatpointer(vector<DataPoint> datapoints, float* x, float* t)
 	}
 }
 */
+
 /*
+
 void datapoints2doublepointer(vector<DataPoint> datapoints, double* x, double* t)
 {
 	for( int i = 0; i < datapoints.size(); ++i )

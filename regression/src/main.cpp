@@ -6,7 +6,7 @@
 
 #include "UnitTesting.h"
 
-void datapoints2doublepointer(vector<DataPoint> datapoints, double x[], double t[])
+void datapoints2doublepointer(vector<DataPoint> datapoints, double* x, double* t)
 {
 	for( int i = 0; i < datapoints.size(); ++i )
 	{
@@ -29,20 +29,23 @@ int main(int argc, char *argv[])
    DataImporter importer;
    importer.getDataPoints(filename, dataPoints);
 
+   // chartdirector expected double pointer
    unsigned int number = dataPoints.size();
-   double xValues[4];
-   double tValues[4];
+   double* xValues = new double[number];
+   double* tValues = new double[number];
    datapoints2doublepointer(dataPoints, xValues, tValues);
 
+   // create and show chart
    ChartDirector chartdir;
-   view.setChart( chartdir.createChart(xValues, tValues, number) );	//xValues, tValues, number
+   view.setChart( chartdir.createChart(xValues, tValues, number) );
 
+   // testing
    //UnitTesting ui;
    //ui.test_createLookUpTables();
    //ui.test_createMatrixLinearEquationsSystem();
    //ui.test_getDataPoints(filename);
 
-   
+   delete[] xValues, tValues;
    return app.exec();
 }
 

@@ -27,7 +27,8 @@ void DataGenerator::generateDataSinNoise(unsigned int& number, vector<DataPoint>
 		double noise_x = (double)((rand() % 100) / 500.0f);
 		double noise_y = (double)((rand() % 100) / 500.0f);
 
-		DataPoint p(i + (noise_x+noise_y), result + (noise_y-noise_x));
+		//DataPoint p(i + (noise_x+noise_y), result + (noise_y-noise_x));
+		DataPoint p(i, result + (noise_y-noise_x));
 		dataPoints.push_back(p);
 	}
 }

@@ -108,11 +108,11 @@ void firstLinearRegression( shared_ptr<QViewChart> view)
 
 	// calculate function by linear regression
 	LinearRegression linRegr;
-	unsigned int m = 4;
+	unsigned int m = 9;
 	vector<double> coefficients = linRegr.calculateCoefficients(m, dataPoints);
 
 	// create test points calculated by function
-	unsigned int n = 50;
+	unsigned int n = 20;
 	double* xValues_50 = new double[n];
 	double* tValues_50 = new double[n];
 	datapoints2doublepointer( calculateTestPointsForGraphic(coefficients, n, number), xValues_50, tValues_50);
@@ -124,6 +124,30 @@ void firstLinearRegression( shared_ptr<QViewChart> view)
 	chart.makeChart("chart.png");
 	delete[] xValues_10, tValues_10;
 	delete[] xValues_50, tValues_50;
+}
+
+void detectOptimalM()
+{
+	// 10 trainingdp, 90 testdp
+
+	// lineare regression m = 2 - 9
+
+	// Erms errechnen für trainingpoints
+	vector<double> erms_training(9);
+
+	// Erms errechnen für testpoints
+	vector<double> erms_test(9);
+
+	// m = waagerechte achse, erms = senkrechte achse
+	ChartDirector chartdir;
+	XYChart chart(1, 1);
+	double* mValues = new double[9];
+	for(int i = 0; i < 10; ++i)
+		mValues[i] = i;
+
+	// erms zu double[]
+
+	delete[] mValues;
 }
 
 int main(int argc, char *argv[])

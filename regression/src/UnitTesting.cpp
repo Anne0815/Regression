@@ -226,4 +226,11 @@ void UnitTesting::test_bigfloatOperator()
 	cout << "erwartet: a.multiply(a, b) = 50" << endl;
 	cout << "a = " << a.getdouble() << " b = " << b.getdouble() << endl;
 	cout << "*****************************************************************" << endl;
+
+	BigFloat bf(a);
+	cout << "a = " << a.getdouble() << endl;
+	cout << "copy = " << bf.getdouble() << endl;
+	a.set_with_double(111.11);
+	cout << "a wird geändert: " << a.getdouble() << endl;
+	cout << "copy (darf sich nicht mitverändern) = " << bf.getdouble() << endl;
 }

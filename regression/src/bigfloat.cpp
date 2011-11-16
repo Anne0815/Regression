@@ -53,6 +53,10 @@ BigFloat::BigFloat(double a)
 	set_with_double(a);	
 }
 
+BigFloat::BigFloat(const BigFloat& src)
+{
+	*this = src;
+}
 
 BigFloat::BigFloat(char * hex_data, int exponent, int sign)
 {
@@ -242,7 +246,7 @@ int BigFloat::is_zero()
 	return 1;
 }
 
-int BigFloat::copy(class BigFloat * a)
+int BigFloat::copy(const BigFloat * a)
 {
 	for(int i=0; i<SIZE; i++)
 		data[i] = a->data[i];
@@ -870,6 +874,40 @@ int BigFloat::compare_sign(class BigFloat * a)
 	if(a->sign != sign)
 		return -1;
 	return 1;
+}
+
+BigFloat& BigFloat::operator=(const BigFloat& src)
+{
+	this->data = (unsigned int*)malloc(sizeof(int)*SIZE);
+	if(data == NULL)
+		printf("ERROR could not malloc\n");
+	this->copy(&src);
+
+	return *this;
+}
+
+BigFloat& BigFloat::operator+=(BigFloat& rhs)
+{
+	this->add(this, &rhs);
+	return *this;
+}
+
+BigFloat& BigFloat::operator-=(BigFloat& rhs)
+{
+	this->subtract(this, &rhs);
+	return *this;
+}
+
+BigFloat& BigFloat::operator*=(BigFloat& rhs)
+{
+	this->multiply(this, &rhs);
+	return *this;
+}
+
+BigFloat& BigFloat::operator/=(BigFloat& rhs)
+{
+	this->divide(this, &rhs);
+	return *this;
 }
 
 BigFloat::~BigFloat()

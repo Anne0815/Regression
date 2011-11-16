@@ -16,7 +16,8 @@
 //
 // ==============================================================
 
-#pragma once
+#ifndef BIGFLOAT_H
+#define BIGFLOAT_H
 
 #include <stdio.h>
 
@@ -50,7 +51,9 @@ public:
 	BigFloat(double a);
 	BigFloat(char * hex_data, int exponent, int sign);
 
-	int copy(class BigFloat * a);	
+	BigFloat(const BigFloat& src);
+
+	int copy(const BigFloat * a);	
 	int set_with_double(double a);
 	int is_zero();
 
@@ -79,8 +82,46 @@ public:
 	int test_if_pi_to_nine_hundred_digits();
 	
 	~BigFloat();
+
+	BigFloat& operator=(const BigFloat& src);
+	BigFloat& operator+=(BigFloat& rhs);
+	BigFloat& operator-=(BigFloat& rhs);
+	BigFloat& operator*=(BigFloat& rhs);
+	BigFloat& operator/=(BigFloat& rhs);
+
+	friend BigFloat operator+(BigFloat& lhs, BigFloat& rhs);
+	friend BigFloat operator-(BigFloat& lhs, BigFloat* rhs);
+	friend BigFloat operator*(BigFloat& lhs, BigFloat* rhs);
+	friend BigFloat operator/(BigFloat& lhs, BigFloat* rhs);
 };
 
+inline BigFloat operator+(BigFloat& lhs, BigFloat& rhs)
+{
+	BigFloat a;
+	a.add(&lhs, &rhs);
+	return a;
+}
+
+inline BigFloat operator-(BigFloat& lhs, BigFloat& rhs)
+{
+	BigFloat a;
+	a.subtract(&lhs, &rhs);
+	return a;
+}
+
+inline BigFloat operator*(BigFloat& lhs, BigFloat& rhs)
+{
+	BigFloat a;
+	a.multiply(&lhs, &rhs);
+	return a;
+}
+
+inline BigFloat operator/(BigFloat& lhs, BigFloat& rhs)
+{
+	BigFloat a;
+	a.divide(&lhs, &rhs);
+	return a;
+}
 
 class BigFloatDec
 {
@@ -102,3 +143,5 @@ public:
 	
 	~BigFloatDec();
 };
+
+#endif

@@ -12,7 +12,7 @@
 
 void datapoints2doublepointer(vector<DataPoint> datapoints, double* x, double* t)
 {
-	for( int i = 0; i < datapoints.size(); ++i )
+	for( unsigned int i = 0; i < datapoints.size(); ++i )
 	{
 		x[i] = (double)(datapoints[i].x);
 		t[i] = (double)(datapoints[i].t);
@@ -36,15 +36,15 @@ void graphic( shared_ptr<QViewChart> view)
 	unsigned int number;
 
 	// get data points from file
-	//QString filename = view.openDirectory();
-	//DataImporter importer;
-	//importer.getDataPoints(filename, dataPoints);
-	//number = dataPoints.size();
+	QString filename = view->openDirectory();
+	DataImporter importer;
+	importer.getDataPoints(filename, dataPoints);
+	number = dataPoints.size();
 
 	// get data points from generator
-	DataGenerator generator;
-	number = 10;
-	generator.generateDataSin(number, dataPoints);
+	//DataGenerator generator;
+	//number = 10;
+	//generator.generateDataSin(number, dataPoints);
 
 	// chartdirector expected double pointer
 	double* xValues = new double[number];
@@ -57,10 +57,10 @@ void graphic( shared_ptr<QViewChart> view)
 	chartdir.createChart(chart, xValues, tValues, number);
 
 	// second data set
-	dataPoints.clear();
+	/*dataPoints.clear();
 	generator.generateDataSinNoise(number, dataPoints);
 	datapoints2doublepointer(dataPoints, xValues, tValues);
-	chartdir.addPlot(chart, xValues, tValues, number);
+	chartdir.addPlot(chart, xValues, tValues, number);*/
    
 	view->setChart( &chart );
 
@@ -71,7 +71,7 @@ vector<DataPoint> calculateTestPointsForGraphic(vector<double> coefficients, uns
 {
 	vector<DataPoint> points(nPoints);
 
-	for( int i = 0; i < nPoints; ++i )
+	for( unsigned int i = 0; i < nPoints; ++i )
 	{
 		DataPoint p;
 		double x = (double)(double(i * originNPoints) / (double)nPoints);
@@ -112,16 +112,20 @@ void firstLinearRegression( shared_ptr<QViewChart> view)
 	vector<double> coefficients = linRegr.calculateCoefficients(m, dataPoints);
 
 	// create test points calculated by function
-	unsigned int n = 20;
+	unsigned int n = 50;
 	double* xValues_50 = new double[n];
 	double* tValues_50 = new double[n];
 	datapoints2doublepointer( calculateTestPointsForGraphic(coefficients, n, number), xValues_50, tValues_50);
-	chartdir.addPlot(chart, xValues_50, tValues_50, n);
-	chartdir.addLine(chart, xValues_50, tValues_50, n, 0x00ff00);
+	//chartdir.addPlot(chart, xValues_50, tValues_50, n);
+	chartdir.addLine(chart, xValues_50, tValues_50, n, 0x009900);
 
 	view->setChart( &chart );
 
 	chart.makeChart("chart.png");
+
+	for( vector<double>::iterator b = coefficients.begin(), e = coefficients.end(); b != e; ++b )
+		cout << "coefficient: " << *b << endl;
+
 	delete[] xValues_10, tValues_10;
 	delete[] xValues_50, tValues_50;
 }

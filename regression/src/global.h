@@ -2,6 +2,7 @@
 #define GLOBAL_H
 
 #include <vector>
+#include <iostream>
 #include "Dll.h"
 
 using namespace std;

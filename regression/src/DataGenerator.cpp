@@ -1,6 +1,6 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
-
+#include "global.h"
 #include "DataGenerator.h"
 
 
@@ -30,5 +30,7 @@ void DataGenerator::generateDataSinNoise(unsigned int& number, vector<DataPoint>
 		//DataPoint p(i + (noise_x+noise_y), result + (noise_y-noise_x));
 		DataPoint p(i, result + (noise_y-noise_x));
 		dataPoints.push_back(p);
+
+		cout << "Datapoint(" << p.x << ", " << p.t << ")" << endl;
 	}
 }

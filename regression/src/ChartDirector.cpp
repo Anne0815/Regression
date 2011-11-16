@@ -19,11 +19,14 @@ void ChartDirector::createChart(XYChart& chart, double* xValues, double* tValues
 
     chart.addTitle("Linear Regression", "arialbi.ttf", 15);
 
+	//chart.yAxis()->setDateScale( (-1.5), 1.5);
     chart.yAxis()->setTitle("t", "arialbi.ttf", 10);
     chart.xAxis()->setTitle("x", "arialbi.ttf", 10);
 
+	//chart.yAxis()->setDateScale( (-1.5), 1.5);
     chart.yAxis()->setWidth(1);
     chart.xAxis()->setWidth(1);
+	
 
     // add a scatter layer
 	DoubleArray xd(xValues, number);
@@ -36,6 +39,7 @@ void ChartDirector::addPlot(XYChart& chart, double* xValues, double* tValues, un
 	// add a scatter layer
 	DoubleArray xd(xValues, number);
     DoubleArray td(tValues, number);
+	
 	chart.addScatterLayer(xd, td, "Measurement", Chart::CircleShape, 5, 0x000000);
 }
 

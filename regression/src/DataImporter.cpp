@@ -1,7 +1,6 @@
 #include "DataImporter.h"
 #include <QTextStream>
 #include <QStringList>
-#include <iostream>
 
 
 void DataImporter::getDataPoints( QString& path, vector<DataPoint>& data )

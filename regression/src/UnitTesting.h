@@ -19,6 +19,8 @@ public:
 	DLL void test_determinant();
 	DLL void test_solveLinearEquation();
 
+	DLL void test_bigfloatOperator();
+
 private:
 };
 #endif

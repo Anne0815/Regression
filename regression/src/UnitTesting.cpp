@@ -4,6 +4,7 @@
 #include "LinearRegression.h" 
 #include "LinearEquation.h"
 #include "DataImporter.h"
+#include "bigfloat.h"
 
 /*
 erwartete Ausgabe:
@@ -34,7 +35,7 @@ void UnitTesting::test_createLookUpTables()
 	cout << endl;
 
 	cout << "T_Values: " << endl;
-	for(int i = 0; i < m; ++i)
+	for(unsigned int i = 0; i < m; ++i)
 		cout << tValues[i] << ", ";
 }
 
@@ -81,7 +82,7 @@ void UnitTesting::test_getDataPoints(QString& path)
 	DataImporter importer;
 	importer.getDataPoints(path, dataPoints);
 
-	for(int i = 0; i < dataPoints.size(); ++i)
+	for(unsigned int i = 0; i < dataPoints.size(); ++i)
 		cout << dataPoints[i].x << " " << dataPoints[i].t << endl;
 }
 
@@ -159,4 +160,70 @@ void UnitTesting::test_solveLinearEquation()
 
 	result = linEqua.solveLinearEquation(matrix3, vector_3);
 	cout << "12. solve linear equation(3x3 matrix) = {-18, -9, 5} = " << "{" << result[0] << ", " << result[1] << ", " << result[2] << "}" << endl;
+}
+
+void UnitTesting::test_bigfloatOperator()
+{
+	// +
+	BigFloat a(10.0);
+	BigFloat b(5.0);
+	BigFloat c(20.0);
+	cout << "vor operation: a = " << a.getdouble()  << " b = " << b.getdouble() << " c = " << c.getdouble() << endl;
+	c.add(&a, &b);
+	cout << "erwartet: c.add( a , b ) = 15" << endl;
+	cout << "a = " << a.getdouble() << " b = " << b.getdouble() << " c = " << c.getdouble() << endl;
+	cout << "*****************************************************************" << endl;
+
+	BigFloat a_1(10.0);
+	BigFloat b_1(5.0);
+	cout << "vor operation: a = " << a_1.getdouble()  << " b = " << b_1.getdouble() << endl;
+	b_1.add(&a_1, &b_1);
+	cout << "erwartet: b.add(a, b) = 15" << endl;
+	cout << "a = " << a_1.getdouble() << " b = " << b_1.getdouble() << endl;
+	cout << "*****************************************************************" << endl;
+
+	// -
+	a.set_with_double(10.0);
+	b.set_with_double(5.0);
+	cout << "vor operation: a = " << a.getdouble() << " b = " << b.getdouble() << endl;
+	a.subtract(&a, &b);
+	cout << "erwartet: a.subtract(a, b) = 5" << endl;
+	cout << "a = " << a.getdouble() << " b = " << b.getdouble() << endl;
+	cout << "*****************************************************************" << endl;
+
+	// -
+	a.set_with_double(5.0);
+	b.set_with_double(10.0);
+	cout << "vor operation: a = " << a.getdouble() << " b = " << b.getdouble() << endl;
+	a.subtract(&a, &b);
+	cout << "erwartet: a.subtract(a, b) = -5" << endl;
+	cout << "a = " << a.getdouble() << " b = " << b.getdouble() << endl;
+	cout << "*****************************************************************" << endl;
+
+	// :
+	a.set_with_double(10.0);
+	b.set_with_double(5.0);
+	cout << "vor operation: a = " << a.getdouble() << " b = " << b.getdouble() << endl;
+	a.divide(&a, &b);
+	cout << "erwartet: a.divide(a, b) = 2" << endl;
+	cout << "a = " << a.getdouble() << " b = " << b.getdouble() << endl;
+	cout << "*****************************************************************" << endl;
+
+	// :
+	a.set_with_double(5.0);
+	b.set_with_double(10.0);
+	cout << "vor operation: a = " << a.getdouble() << " b = " << b.getdouble() << endl;
+	a.divide(&a, &b);
+	cout << "erwartet: a.divide(a, b) = 0.5" << endl;
+	cout << "a = " << a.getdouble() << " b = " << b.getdouble() << endl;
+	cout << "*****************************************************************" << endl;
+
+	// *
+	a.set_with_double(10.0);
+	b.set_with_double(5.0);
+	cout << "vor operation: a = " << a.getdouble() << " b = " << b.getdouble() << endl;
+	a.multiply(&a, &b);
+	cout << "erwartet: a.multiply(a, b) = 50" << endl;
+	cout << "a = " << a.getdouble() << " b = " << b.getdouble() << endl;
+	cout << "*****************************************************************" << endl;
 }

@@ -15,8 +15,9 @@ private:
 	bool handleEliminatingValuesInRow(vector<vector<double>>& matrix, int indexDiagonal);
 	bool changeValuesInRow(vector<vector<double>>& matrix, int indexRow);
 	void eliminateValuesByZeroInCol(vector<vector<double>>& matrix, int indexCol);
-	int row;
-	int col;
+	bool testCorrectnessEndform(const vector<vector<double>>& matrix);
+	unsigned int row;
+	unsigned int col;
 };
 
 #endif

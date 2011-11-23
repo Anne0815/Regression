@@ -3,6 +3,7 @@
 
 #include "global.h"
 #include "LinearEquation.h"
+#include "GaussElimination.h"
 
 class LinearRegression{
 
@@ -24,6 +25,7 @@ public:
 private:
 	
 	LinearEquation linEquation;
+	GaussElimination gauss;
 
 	vector<double> xValues;
 	vector<double> tValues;

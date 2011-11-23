@@ -5,6 +5,7 @@
 #include "LinearEquation.h"
 #include "DataImporter.h"
 #include "bigfloat.h"
+#include "GaussElimination.h"
 
 /*
 erwartete Ausgabe:
@@ -127,7 +128,7 @@ void UnitTesting::test_determinant()
 // 82 * x1 + 45 * x2 + 9 * x3 = 1
 // 27 * x1 + 16 * x2 + 3 * x3 = 1
 //  9 * x1 +  5 * x2 + 1 * x3 = 0
-void UnitTesting::test_solveLinearEquation()
+void UnitTesting::test_solveLinearEquationByCramerRule()
 {
 	vector< vector<double> > matrix3(3);
 	vector<double> v1_3(3), v2_3(3), v3_3(3), vector_3(3);
@@ -162,7 +163,47 @@ void UnitTesting::test_solveLinearEquation()
 	cout << "12. solve linear equation(3x3 matrix) = {-18, -9, 5} = " << "{" << result[0] << ", " << result[1] << ", " << result[2] << "}" << endl;
 }
 
-void UnitTesting::test_bigfloatOperator()
+// Beispiel ist von Arndt Bruenner
+// 0   10   0  12 =  -6
+// 4   -5  -2  -8 = -17
+// 0   -5   0  -4 = -23
+// 4  -10   0 -16 =   2
+void UnitTesting::test_solveLinearEquationByGauss()
+{
+	vector<vector<double>> matrix(4);
+	matrix[0].push_back(0);
+	matrix[0].push_back(10);
+	matrix[0].push_back(0);
+	matrix[0].push_back(12);
+
+	matrix[1].push_back(4);
+	matrix[1].push_back(-5);
+	matrix[1].push_back(-2);
+	matrix[1].push_back(-8);
+
+	matrix[2].push_back(0);
+	matrix[2].push_back(-5);
+	matrix[2].push_back(0);
+	matrix[2].push_back(-4);
+
+	matrix[3].push_back(4);
+	matrix[3].push_back(-10);
+	matrix[3].push_back(0);
+	matrix[3].push_back(-16);
+
+	vector<double> v(4);
+	v[0] = -6;
+	v[1] = -17;
+	v[2] = -23;
+	v[3] = 2;
+
+	GaussElimination gauss;
+	vector<double> result = gauss.solveLinearEquation(matrix, v);
+
+	cout << "solve linear equation by gauss = {-14, 15, -5, -13} = " << "{" << result[0] << ", " << result[1] << ", " << result[2] << ", " << result[3] << "}" << endl;
+}
+
+void UnitTesting::test_bigfloatOperatorOverloading()
 {
 	BigFloat a(10.0);
 	BigFloat b(5.0);

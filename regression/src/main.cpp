@@ -28,7 +28,8 @@ void unittesting()
     //ui.test_getDataPoints(filename);
 	//ui.test_determinant();
 	//ui.test_solveLinearEquation();
-	ui.test_bigfloatOperator();
+	//ui.test_bigfloatOperator();
+	ui.test_solveLinearEquationByGauss();
 }
 
 void graphic( shared_ptr<QViewChart> view)
@@ -161,12 +162,12 @@ int main(int argc, char *argv[])
 
 	shared_ptr<QViewChart> view = make_shared<QViewChart>();
   
-	//view->show();
+	view->show();
 
 	//graphic(view);
-    unittesting();
+    //unittesting();
 
-    //firstLinearRegression(view);
+    firstLinearRegression(view);
    
 	return app.exec();
 }

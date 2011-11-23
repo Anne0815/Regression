@@ -17,9 +17,11 @@ public:
 	DLL void test_getDataPoints(QString& path);
 
 	DLL void test_determinant();
-	DLL void test_solveLinearEquation();
+	DLL void test_solveLinearEquationByCramerRule();
 
-	DLL void test_bigfloatOperator();
+	DLL void test_solveLinearEquationByGauss();
+
+	DLL void test_bigfloatOperatorOverloading();
 
 private:
 };

@@ -15,10 +15,10 @@ void LinearRegression::createLookUpTables(const vector<DataPoint>& dataPoints)
 {
 	DataPoint cdp;
 	
-	for( unsigned int n = 0; n < dataPoints.size(); ++n )
+	for(unsigned int n = 0; n < dataPoints.size(); ++n)
 	{
 		cdp = dataPoints[n];
-		for( int j = 0; j < xValues.size(); ++j )
+		for(int j = 0; j < xValues.size(); ++j)
 		{
 			double xpowj = pow(cdp.x, j);
 			xValues[j] += xpowj;
@@ -45,12 +45,12 @@ vector<double> LinearRegression::calculateCoefficients(unsigned int m, const vec
 {
 	matrix.resize(m);
 
-	for( int i = 0; i < m; ++i )
+	for(unsigned int i = 0; i < m; ++i)
 		matrix[i] = vector<double>(m, 0.0);
 
 	xValues.resize((m*2), 0.0);
 	tValues.resize(m, 0.0);
 
 	createMatrixLinearEquationsSystem(dataPoints, m);
-	return linEquation.solveLinearEquation(matrix, tValues);
+	return gauss.solveLinearEquation(matrix, tValues);
 }

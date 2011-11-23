@@ -24,16 +24,10 @@ vector<double> GaussElimination::solveLinearEquation(vector<vector<double>> matr
 	int newcol = col + 1;
 	for(unsigned int i = 0; i < row; ++i)
 	{
-		//matrix[i].resize(newcol);
-		//matrix[i][newcol] = v[i];
-		// falls resize überschreibt, dann matrix[i].pushback(v[i])
 		matrix[i].push_back(v[i]);
 	}
 
-	// counter für index auf start
-	//int indexDiagonal = 0;
-
-	// falls i != reihe i++ und ab 2
+	// für alle reihen
 	for(unsigned int indexDiagonal = 0; indexDiagonal < row; ++indexDiagonal)
 	{
 		bool success = handleEliminatingValuesInRow(matrix, indexDiagonal);
@@ -83,33 +77,27 @@ bool GaussElimination::handleEliminatingValuesInRow(vector<vector<double>>& matr
 
 bool GaussElimination::changeValuesInRow(vector<vector<double>>& matrix, int indexRow)
 {
+	if(matrix[indexRow][indexRow] != 0 ) return true;
+
 	// wenn i.zeile zahl in spalte i = 0, tausche mit zeile darunter!!, wo zahl in i.spalte != 0 -> falls nicht da, gs nicht lösbar
-	if( matrix[indexRow][indexRow] == 0 )
+	for(int rowCounter = indexRow+1; rowCounter < row; ++rowCounter)
 	{
-		int rowCounter = indexRow;
-		int maxRowValue = row - 1;
-
-		while( rowCounter != maxRowValue )
+		double value = matrix[rowCounter][indexRow];
+		if(value != 0.0)
 		{
-			double value = matrix[++rowCounter][indexRow];
-			if(value != 0.0)
+			// tausche reihen
+			for(unsigned int i = 0; i <= col; ++i) //zusätzliche spalte angefügt durch vector
 			{
-				for(unsigned int i = 0; i <= col; ++i) //zusätzliche spalte angefügt durch vector
-				{
-					double currowValue = matrix[indexRow][i];
-					double changeValue = matrix[rowCounter][i];
-					matrix[indexRow][i] = changeValue;
-					matrix[rowCounter][i] = currowValue;
-				}
-
-				return true;
+				double currowValue = matrix[indexRow][i];
+				double changeValue = matrix[rowCounter][i];
+				matrix[indexRow][i] = changeValue;
+				matrix[rowCounter][i] = currowValue;
 			}
+			return true;
 		}
-
-		return false;
 	}
 
-	return true;
+	return false;
 }
 
 void GaussElimination::eliminateValuesByZeroInCol(vector<vector<double>>& matrix, int indexCol)
@@ -125,12 +113,7 @@ void GaussElimination::eliminateValuesByZeroInCol(vector<vector<double>>& matrix
 		double multiplyer = matrix[i][indexCol];
 
 		for(unsigned int j = 0; j <= col; ++j) //zusätzliche spalte angefügt durch vector
-		{
-			double d = matrix[i][j];
-			double e = matrix[indexCol][j];
-			double r = d - multiplyer * e;
-			matrix[i][j] = r;
-		}
+			matrix[i][j] -= multiplyer * matrix[indexCol][j];
 	}
 }
 

@@ -2,7 +2,7 @@
 #define LINEARREGRESSION
 
 #include "global.h"
-#include "LinearEquation.h"
+#include "CramerRule.h"
 #include "GaussElimination.h"
 
 class LinearRegression{
@@ -24,7 +24,7 @@ public:
 
 private:
 	
-	LinearEquation linEquation;
+	CramerRule cramer;
 	GaussElimination gauss;
 
 	vector<double> xValues;

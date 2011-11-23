@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "LinearRegression.h" 
-#include "LinearEquation.h"
+#include "CramerRule.h"
 #include "DataImporter.h"
 #include "bigfloat.h"
 #include "GaussElimination.h"
@@ -92,7 +92,7 @@ void UnitTesting::test_determinant()
 	vector< vector<double> > matrix3(3);
 	vector<double> v1_3(3), v2_3(3), v3_3(3);
 	
-	LinearEquation linEqua;
+	CramerRule cramer;
 
 	v1_3[0] = 0.0; v1_3[1] = 1.0; v1_3[2] = 2.0;
 	v2_3[0] = 3.0; v2_3[1] = 2.0; v2_3[2] = 1.0;
@@ -100,7 +100,7 @@ void UnitTesting::test_determinant()
 	matrix3[0] = v1_3;
 	matrix3[1] = v2_3;
 	matrix3[2] = v3_3;
-	cout << "1. det(3x3 matrix) = 3 = " << linEqua.determinant(matrix3) << endl;
+	cout << "1. det(3x3 matrix) = 3 = " << cramer.determinant(matrix3) << endl;
 
 	v1_3[0] = -2.0; v1_3[1] = 2.0; v1_3[2] = -3.0;
 	v2_3[0] = -1.0; v2_3[1] = 1.0; v2_3[2] =  3.0;
@@ -108,7 +108,7 @@ void UnitTesting::test_determinant()
 	matrix3[0] = v1_3;
 	matrix3[1] = v2_3;
 	matrix3[2] = v3_3;
-	cout << "2. det(3x3 matrix) = 18 = " << linEqua.determinant(matrix3) << endl;
+	cout << "2. det(3x3 matrix) = 18 = " << cramer.determinant(matrix3) << endl;
 
 	vector< vector<double> > matrix4(4);
 	vector<double> v1_4(4), v2_4(4), v3_4(4), v4_4(4);
@@ -120,7 +120,7 @@ void UnitTesting::test_determinant()
 	matrix4[1] = v2_4;
 	matrix4[2] = v3_4;
 	matrix4[3] = v4_4;
-	cout << "4. det(4x4 matrix) = -56 = " << linEqua.determinant(matrix4) << endl;
+	cout << "4. det(4x4 matrix) = -56 = " << cramer.determinant(matrix4) << endl;
 													
 }
 
@@ -135,7 +135,7 @@ void UnitTesting::test_solveLinearEquationByCramerRule()
 
 	vector<double> result;
 
-	LinearEquation linEqua;
+	CramerRule cramer;
 
 	v1_3[0] = 82.0; v1_3[1] = 45.0; v1_3[2] = 9.0;
 	v2_3[0] = 27.0; v2_3[1] = 16.0; v2_3[2] = 3.0;
@@ -146,7 +146,7 @@ void UnitTesting::test_solveLinearEquationByCramerRule()
 
 	vector_3[0] = 1.0; vector_3[1] = 1.0; vector_3[2] = 0.0;
 
-	result = linEqua.solveLinearEquation(matrix3, vector_3);
+	result = cramer.solveLinearEquation(matrix3, vector_3);
 	cout << "11. solve linear equation(3x3 matrix) = {1, 1, -14} = " << "{" << result[0] << ", " << result[1] << ", " << result[2] << "}" << endl;
 
 
@@ -159,7 +159,7 @@ void UnitTesting::test_solveLinearEquationByCramerRule()
 
 	vector_3[0] = 2.0; vector_3[1] = 3.0; vector_3[2] = 4.0;
 
-	result = linEqua.solveLinearEquation(matrix3, vector_3);
+	result = cramer.solveLinearEquation(matrix3, vector_3);
 	cout << "12. solve linear equation(3x3 matrix) = {-18, -9, 5} = " << "{" << result[0] << ", " << result[1] << ", " << result[2] << "}" << endl;
 }
 

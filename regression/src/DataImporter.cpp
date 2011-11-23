@@ -13,6 +13,7 @@ void DataImporter::getDataPoints( QString& path, vector<DataPoint>& data )
 		return;
 	}
 
+	data.clear();
 	QTextStream stream(&file);
 	while( !stream.atEnd() )
 	{

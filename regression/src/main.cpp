@@ -90,12 +90,15 @@ vector<DataPoint> calculateTestPointsForGraphic(vector<double> coefficients, uns
 void firstLinearRegression( shared_ptr<QViewChart> view)
 {   
 	vector<DataPoint> dataPoints;
-	unsigned int number;
+	unsigned int number = 10;
 
 	// get data points from generator
-	DataGenerator generator;
-	number = 10;
-	generator.generateDataSinNoise(number, dataPoints);
+	//DataGenerator generator;
+	//generator.generateDataSinNoise(number, dataPoints);
+
+	// get data points from dataimporter
+	DataImporter importer;
+	importer.getDataPoints(view->openDirectory(), dataPoints);
 
 	// chartdirector expected double pointer
 	double* xValues_10 = new double[number];
@@ -110,7 +113,7 @@ void firstLinearRegression( shared_ptr<QViewChart> view)
 
 	// calculate function by linear regression
 	LinearRegression linRegr;
-	unsigned int m = 9;
+	unsigned int m = 10;
 	vector<double> coefficients = linRegr.calculateCoefficients(m, dataPoints);
 
 	// create test points calculated by function

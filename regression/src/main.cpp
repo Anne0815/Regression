@@ -167,7 +167,7 @@ int main(int argc, char *argv[])
 	//graphic(view);
     unittesting();
 
-    //firstLinearRegression(view);
+    firstLinearRegression(view);
    
 	return app.exec();
 }

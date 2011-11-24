@@ -7,6 +7,7 @@
 #include "DataImporter.h"
 #include "DataGenerator.h"
 #include "LinearRegression.h"
+#include "Regularization.h"
 
 #include "UnitTesting.h"
 
@@ -87,18 +88,18 @@ vector<DataPoint> calculateTestPointsForGraphic(vector<double> coefficients, uns
 	return points;
 }
 
-void firstLinearRegression( shared_ptr<QViewChart> view)
+void firstLinearRegression( shared_ptr<QViewChart> view )
 {   
 	vector<DataPoint> dataPoints;
 	unsigned int number = 10;
 
 	// get data points from generator
-	//DataGenerator generator;
-	//generator.generateDataSinNoise(number, dataPoints);
+	DataGenerator generator;
+	generator.generateDataSinNoise(number, dataPoints);
 
 	// get data points from dataimporter
-	DataImporter importer;
-	importer.getDataPoints(view->openDirectory(), dataPoints);
+	//DataImporter importer;
+	//importer.getDataPoints(view->openDirectory(), dataPoints);
 
 	// chartdirector expected double pointer
 	double* xValues_10 = new double[number];
@@ -137,28 +138,70 @@ void firstLinearRegression( shared_ptr<QViewChart> view)
 	delete[] xValues_50, tValues_50;
 }
 
-void detectOptimalM()
+void detectOptimalM( shared_ptr<QViewChart> view )
 {
-	// 10 trainingdp, 90 testdp
+	// 10 trainingdp, 90 testdp = 100 datapoints
+	vector<DataPoint> dataPoints;
+	unsigned int number = 100;
+	vector<DataPoint> datapoints(100);
+	// Erms für trainingpoints
+	vector<double> erms_training(10);
+	// Erms für testpoints
+	vector<double> erms_test(10);
+	// lineare regression, fehler berechner
+	LinearRegression regression;
+	Regularization regularization;
+
+	// datenpunkte generieren
+	DataGenerator generator;
+	generator.generateDataSinNoise(number, dataPoints);
+
+	// aufteilen in 10 für training und 90 zum testen
+	vector<DataPoint> trainingDatapoints(10);
+	for(unsigned int i = 0; i < trainingDatapoints.size(); ++i)
+	{
+		unsigned int index = i * 10;
+		trainingDatapoints[i] = dataPoints[index];
+		index = index == 0 ? 0 : index -1;
+		datapoints.erase(datapoints.begin() + index);
+	}
 
 	// lineare regression m = 2 - 9
-
-	// Erms errechnen für trainingpoints
-	vector<double> erms_training(9);
-
-	// Erms errechnen für testpoints
-	vector<double> erms_test(9);
+	unsigned int mMax = 10;
+	for( unsigned int m = 1; m < mMax; ++m )
+	{
+		// koeffizienten berechnen anhand von training datapoints
+		vector<double> coefficients = regression.calculateCoefficients(m, trainingDatapoints);
+		// fehler berechnen für trainingset und testset
+		erms_training[m] = regularization.calcErms(trainingDatapoints, coefficients);
+		erms_test[m] = regularization.calcErms(datapoints, coefficients);
+	}
 
 	// m = waagerechte achse, erms = senkrechte achse
 	ChartDirector chartdir;
 	XYChart chart(1, 1);
-	double* mValues = new double[9];
-	for(int i = 0; i < 10; ++i)
-		mValues[i] = i;
 
-	// erms zu double[]
+	double* mValues = new double[mMax];
+	double* ermsTrainingValues = new double[mMax];
+	double* ermsTestValues = new double[mMax];
+
+	for(unsigned int i = 0; i < mMax; ++i)
+	{
+		mValues[i] = i;
+		ermsTrainingValues[i] = erms_training[i];
+		ermsTestValues[i] = erms_test[i];
+	}
+
+	chartdir.createChart(chart, mValues, ermsTrainingValues, mMax);
+	chartdir.addLine(chart, mValues, ermsTrainingValues, mMax, 0x009900);
+	chartdir.addPlot(chart, mValues, ermsTestValues, mMax); 
+	chartdir.addLine(chart, mValues, ermsTestValues, mMax, 0x000099);
+
+	view->setChart(&chart);
 
 	delete[] mValues;
+	delete[] ermsTrainingValues;
+	delete[] ermsTestValues;
 }
 
 int main(int argc, char *argv[])
@@ -170,9 +213,11 @@ int main(int argc, char *argv[])
 	view->show();
 
 	//graphic(view);
-    unittesting();
+    //unittesting();
 
-    firstLinearRegression(view);
+    //firstLinearRegression(view);
+
+	detectOptimalM(view);
    
 	return app.exec();
 }

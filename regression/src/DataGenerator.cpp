@@ -18,6 +18,8 @@ void DataGenerator::generateDataSin(unsigned int& number, vector<DataPoint>& dat
 
 void DataGenerator::generateDataSinNoise(unsigned int& number, vector<DataPoint>& dataPoints)
 {
+	dataPoints.clear();
+
 	for( int i = 0; i < number; ++i )
 	{
 		double x = (double)( i / 10.0 );
@@ -31,6 +33,6 @@ void DataGenerator::generateDataSinNoise(unsigned int& number, vector<DataPoint>
 		DataPoint p(i, result + (noise_y-noise_x));
 		dataPoints.push_back(p);
 
-		cout << "Datapoint(" << p.x << ", " << p.t << ")" << endl;
+		//cout << "Datapoint(" << p.x << ", " << p.t << ")" << endl;
 	}
 }

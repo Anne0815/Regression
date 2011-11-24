@@ -116,6 +116,8 @@ void firstLinearRegression( shared_ptr<QViewChart> view)
 	unsigned int m = 10;
 	vector<double> coefficients = linRegr.calculateCoefficients(m, dataPoints);
 
+	if(coefficients.size() == 0) return;
+
 	// create test points calculated by function
 	unsigned int n = 50;
 	double* xValues_50 = new double[n];

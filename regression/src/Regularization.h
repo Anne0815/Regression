@@ -9,6 +9,6 @@ public:
 	Regularization(){}
 	virtual ~Regularization(){}
 
-	double calcErms( unsigned int& m, const vector<DataPoint> datapoints, const vector<double> coefficients );
+	double calcErms( const vector<DataPoint> datapoints, const vector<double> coefficients );
 };
 #endif

@@ -13,11 +13,11 @@ public:
 	ChartDirector(){}
 	virtual ~ChartDirector(){};
 
-	void createChart(XYChart& chart, double* xValues, double* tValues, unsigned int& number);
-	void addPlot( XYChart& chart, double* xValues, double* tValues, unsigned int& number);
+	void createChart(XYChart& chart, const char* title, const char* xTitle = "x", const char* yTitle = "y", int width = 640, int height = 480, int color = 0xa0a0a0);
+	void addPlot( XYChart& chart, double* xValues, double* yValues, unsigned int& number);
 
-	void addCurve(XYChart& chart, double* xValues, double* tValues, unsigned int& number);
-	void addLine(XYChart& chart, double* xValues, double* tValues, unsigned int& number, int color);
+	void addCurve(XYChart& chart, double* xValues, double* yValues, unsigned int& number);
+	void addLine(XYChart& chart, double* xValues, double* yValues, unsigned int& number, int color);
 };
 
 #endif

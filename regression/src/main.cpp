@@ -57,7 +57,9 @@ void graphic( shared_ptr<QViewChart> view)
 	// create and show chart
 	ChartDirector chartdir;
 	XYChart chart(1, 1);
-	chartdir.createChart(chart, xValues, tValues, number);
+	chartdir.createChart(chart, "graphic");
+	chartdir.addPlot(chart, xValues, tValues, number);
+	//chartdir.createChart(chart, xValues, tValues, number);
 
 	// second data set
 	/*dataPoints.clear();
@@ -109,7 +111,9 @@ void firstLinearRegression( shared_ptr<QViewChart> view )
 	// create chart with data points and a line between
 	ChartDirector chartdir;
 	XYChart chart(1, 1);
-	chartdir.createChart(chart, xValues_10, tValues_10, number);
+	chartdir.createChart(chart, "Linear Regression", "x", "t");
+	chartdir.addPlot(chart, xValues_10, tValues_10, number);
+	//chartdir.createChart(chart, xValues_10, tValues_10, number);
 	chartdir.addLine(chart, xValues_10, tValues_10, number, 0xf0f0f0);
 
 	// calculate function by linear regression
@@ -192,7 +196,9 @@ void detectOptimalM( shared_ptr<QViewChart> view )
 		ermsTestValues[i] = erms_test[i];
 	}
 
-	chartdir.createChart(chart, mValues, ermsTrainingValues, mMax);
+	//chartdir.createChart(chart, mValues, ermsTrainingValues, mMax);
+	chartdir.createChart(chart, "Calculating optimal M", "m", "erms");
+	chartdir.addPlot(chart, mValues, ermsTrainingValues, mMax);
 	chartdir.addLine(chart, mValues, ermsTrainingValues, mMax, 0x009900);
 	chartdir.addPlot(chart, mValues, ermsTestValues, mMax); 
 	chartdir.addLine(chart, mValues, ermsTestValues, mMax, 0x000099);

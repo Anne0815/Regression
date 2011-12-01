@@ -6,6 +6,8 @@
 #include "DataImporter.h"
 #include "bigfloat.h"
 #include "GaussElimination.h"
+#include "Regularization.h"
+#include "DataGenerator.h"
 
 /*
 erwartete Ausgabe:
@@ -266,4 +268,67 @@ void UnitTesting::test_bigfloatOperatorOverloading()
 	a.set_with_double(111.11);
 	cout << "a wird geändert: " << a.getdouble() << endl;
 	cout << "copy (darf sich nicht mitverändern) = " << bf.getdouble() << endl;
+}
+
+void UnitTesting::test_calcErms()
+{
+	vector<double> coefficients(2);
+	coefficients[0] = 1;	
+	coefficients[1] = 0.5;
+	
+	vector<DataPoint> points;
+	points.push_back( DataPoint(1.0, 2.0) );
+	points.push_back( DataPoint(2.0, 1.0) );
+	points.push_back( DataPoint(3.0, 2.0) );
+	points.push_back( DataPoint(4.0, 3.5) );
+
+	Regularization regularization;
+	double erms = regularization.calcErms(points, coefficients);
+
+	cout << "Erms = 2.5 / 4 = " << erms << endl;
+
+}
+
+void UnitTesting::test_detectOptimalByCalcErms()
+{
+	unsigned int number = 90;
+	vector<DataPoint> testDatapoints(number);
+	vector<DataPoint> trainingDatapoints(10);
+
+	unsigned int mMax = 11;
+	// Erms für trainingpoints
+	vector<double> erms_training(mMax);
+	// Erms für testpoints
+	vector<double> erms_test(mMax);
+	// lineare regression, fehler berechnen
+	LinearRegression regression;
+	Regularization regularization;
+
+	// datenpunkte generieren fürs testen
+	DataGenerator generator;
+	generator.generateDataSinNoise(number, testDatapoints);
+	// get data points from dataimporter by book example
+	DataImporter importer;
+	QString path = "../extern/testmaterial/buch.txt";
+	importer.getDataPoints(path, trainingDatapoints);
+
+	// lineare regression
+	for( unsigned int m = 1; m < mMax; ++m )
+	{
+		// koeffizienten berechnen anhand von training datapoints
+		vector<double> coefficients = regression.calculateCoefficients(m, trainingDatapoints);
+		// fehler berechnen für trainingset und testset
+		double ermsTr = regularization.calcErms(trainingDatapoints, coefficients);
+		erms_training[m] = ermsTr;
+		cout << "M = " << m << endl;
+		cout << "f(x) = ";
+		for(int i = 0; i < coefficients.size(); ++i)
+			cout << coefficients[i] << " * x hoch " << i << " + ";
+		cout << endl << endl;
+		cout << "ERMS Training: " << ermsTr << endl << endl << endl;
+
+		//double ermsTe = regularization.calcErms(testDatapoints, coefficients);
+		//erms_test[m] = ermsTe;
+		//cout << "ERMS Test: " << ermsTe << endl << endl;
+	}
 }

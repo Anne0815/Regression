@@ -4,6 +4,7 @@ void ChartDirector::createChart(XYChart& chart, const char* title, const char* x
 {
 	chart.setSize(width, height);
 	chart.setBackground(color);
+	
 	chart.setPlotArea( 50, 50, 540, 360, 0xc0c0c0, -1, 0xc0c0c0, 0xffffff, -1);
 
 	// Add a legend box with the top center point anchored at (270, 30). Use
@@ -22,6 +23,9 @@ void ChartDirector::createChart(XYChart& chart, const char* title, const char* x
 
 	chart.yAxis()->setWidth(1);
     chart.xAxis()->setWidth(1);
+
+	//chart.yAxis()->setDateScale(0.0, 1.0);
+	//chart.xAxis()->setDateScale(0.0, 1.0);
 }
 
 void ChartDirector::addPlot(XYChart& chart, double* xValues, double* yValues, unsigned int& number)

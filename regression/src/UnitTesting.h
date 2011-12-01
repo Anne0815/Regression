@@ -23,6 +23,9 @@ public:
 
 	DLL void test_bigfloatOperatorOverloading();
 
+	DLL void test_calcErms();
+	DLL void test_detectOptimalByCalcErms();
+
 private:
 };
 #endif

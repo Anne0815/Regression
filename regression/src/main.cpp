@@ -30,7 +30,9 @@ void unittesting()
 	//ui.test_determinant();
 	//ui.test_solveLinearEquation();
 	//ui.test_bigfloatOperator();
-	ui.test_solveLinearEquationByGauss();
+	//ui.test_solveLinearEquationByGauss();
+	//ui.test_calcErms();
+	ui.test_detectOptimalByCalcErms();
 }
 
 void graphic( shared_ptr<QViewChart> view)
@@ -96,12 +98,12 @@ void firstLinearRegression( shared_ptr<QViewChart> view )
 	unsigned int number = 10;
 
 	// get data points from generator
-	DataGenerator generator;
-	generator.generateDataSinNoise(number, dataPoints);
+	//DataGenerator generator;
+	//generator.generateDataSinNoise(number, dataPoints);
 
 	// get data points from dataimporter
-	//DataImporter importer;
-	//importer.getDataPoints(view->openDirectory(), dataPoints);
+	DataImporter importer;
+	importer.getDataPoints(view->openDirectory(), dataPoints);
 
 	// chartdirector expected double pointer
 	double* xValues_10 = new double[number];
@@ -145,40 +147,46 @@ void firstLinearRegression( shared_ptr<QViewChart> view )
 void detectOptimalM( shared_ptr<QViewChart> view )
 {
 	// 10 trainingdp, 90 testdp = 100 datapoints
-	vector<DataPoint> dataPoints;
-	unsigned int number = 100;
 	vector<DataPoint> datapoints(100);
+	vector<DataPoint> trainingDatapoints(10);
+	unsigned int number = 100;
+	unsigned int mMax = 11;
+
 	// Erms für trainingpoints
-	vector<double> erms_training(10);
+	vector<double> erms_training(mMax);
 	// Erms für testpoints
-	vector<double> erms_test(10);
+	vector<double> erms_test(mMax);
 	// lineare regression, fehler berechner
 	LinearRegression regression;
 	Regularization regularization;
 
 	// datenpunkte generieren
 	DataGenerator generator;
-	generator.generateDataSinNoise(number, dataPoints);
+	generator.generateDataSinNoise(number, datapoints);
 
 	// aufteilen in 10 für training und 90 zum testen
-	vector<DataPoint> trainingDatapoints(10);
 	for(unsigned int i = 0; i < trainingDatapoints.size(); ++i)
 	{
 		unsigned int index = i * 10;
-		trainingDatapoints[i] = dataPoints[index];
+		trainingDatapoints[i] = datapoints[index];
 		index = index == 0 ? 0 : index -1;
 		datapoints.erase(datapoints.begin() + index);
 	}
 
-	// lineare regression m = 2 - 9
-	unsigned int mMax = 10;
+	// lineare regression
 	for( unsigned int m = 1; m < mMax; ++m )
 	{
 		// koeffizienten berechnen anhand von training datapoints
 		vector<double> coefficients = regression.calculateCoefficients(m, trainingDatapoints);
 		// fehler berechnen für trainingset und testset
-		erms_training[m] = regularization.calcErms(trainingDatapoints, coefficients);
-		erms_test[m] = regularization.calcErms(datapoints, coefficients);
+		double ermsTr = regularization.calcErms(trainingDatapoints, coefficients);
+		erms_training[m] = ermsTr;
+		cout << "M = " << m << endl;
+		cout << "ERMS Training: " << ermsTr << endl;
+
+		double ermsTe = regularization.calcErms(datapoints, coefficients);
+		erms_test[m] = ermsTe;
+		cout << "ERMS Test: " << ermsTe << endl << endl;
 	}
 
 	// m = waagerechte achse, erms = senkrechte achse

@@ -63,8 +63,14 @@ _ReSharper
 #
 #ChartDirector
 #
-libs/
-!libs/ChartDirector/
+regression/libs/ChartDirector/cppdemo/
+regression/libs/ChartDirector/doc/
+regression/libs/ChartDirector/mfcdemo/
+regression/libs/ChartDirector/qtdemo/
+regression/libs/ChartDirector/LICENSE.TXT
+
+libs/ChartDirector/README.TXT
+
 #[Cc]hartDirector/
  
 #

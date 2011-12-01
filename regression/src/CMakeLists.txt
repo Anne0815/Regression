@@ -4,7 +4,7 @@ project (Regression)
 
 # variablen
 
-set( EXTERN_DIR "${CMAKE_SOURCE_DIR}/../extern" )
+set( EXTERN_DIR "${CMAKE_SOURCE_DIR}/../libs" )
 
 find_package( Qt4 4.6 COMPONENTS QtCore QtGui QtNetwork REQUIRED )
 
@@ -20,11 +20,10 @@ ENDIF( ${CMAKE_GENERATOR} STREQUAL "Visual Studio 10" )
 
 ENDIF( ( WIN32 OR WIN64 ) AND NOT UNIX )
 
-#SET( CHARD_DIR ${CMAKE_SOURCE_DIR}/../extern/ChartDirector/include/ )
 SET( CHARD_DIR ${EXTERN_DIR}/ChartDirector/include/ )
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CHARD_DIR})
 
-link_directories( "${EXTERN_DIR}/ChartDirector/lib" )
+link_directories( ${EXTERN_DIR}/ChartDirector/lib )
 
 SET( MOC_HDRS QViewChart.h )
 QT4_WRAP_CPP( MOC_SRCS ${MOC_HDRS} )
@@ -54,7 +53,7 @@ INCLUDE(CPack)
 IF( ( WIN32 OR WIN64 ) AND NOT UNIX)
 	INSTALL(FILES ../build/Release/View_Plot.exe DESTINATION bin)
 	INSTALL(FILES ../src/qt.conf DESTINATION bin)
-	INSTALL(FILES  ../extern/ChartDirector/lib/chartdir50.dll DESTINATION bin)
+	INSTALL(FILES "${EXTERN_DIR}/ChartDirector/lib/chartdir50.dll" DESTINATION bin)
 	INSTALL(FILES "${QT_LIBRARY_DIR}/../bin/QtGui4.dll" DESTINATION bin)
 	INSTALL(FILES "${QT_LIBRARY_DIR}/../bin/QtCore4.dll" DESTINATION bin)
 	INSTALL(FILES "${QT_LIBRARY_DIR}/../plugins/imageformats/qjpeg4.dll" DESTINATION bin/plugins/imageformats)

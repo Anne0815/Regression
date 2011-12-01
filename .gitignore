@@ -63,7 +63,9 @@ _ReSharper
 #
 #ChartDirector
 #
-[Cc]hartDirector/*
+libs/
+!libs/ChartDirector/
+#[Cc]hartDirector/
  
 #
 # Microsoft Office Temp Files

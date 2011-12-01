@@ -309,7 +309,7 @@ void UnitTesting::test_detectOptimalByCalcErms()
 	generator.generateDataSinNoise(number, testDatapoints);
 	// get data points from dataimporter by book example
 	DataImporter importer;
-	QString path = "../extern/testmaterial/buch.txt";
+	QString path = "../data/testmaterial/buch.txt";
 	importer.getDataPoints(path, trainingDatapoints);
 
 	// lineare regression

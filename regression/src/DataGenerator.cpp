@@ -7,7 +7,7 @@
 
 void DataGenerator::generateDataSin(unsigned int& number, vector<DataPoint>& dataPoints)
 {
-	for( int i = 0; i < number; ++i )
+	for( unsigned int i = 0; i < number; ++i )
 	{
 		double x = (double)( i / 10.0 );
 		double result = sin( (2.0 * M_PI * x) );
@@ -20,7 +20,7 @@ void DataGenerator::generateDataSinNoise(unsigned int& number, vector<DataPoint>
 {
 	dataPoints.clear();
 
-	for( int i = 0; i < number; ++i )
+	for( unsigned int i = 0; i < number; ++i )
 	{
 		double x = (double)( (double)i / (double)number );
 

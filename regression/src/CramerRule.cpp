@@ -87,7 +87,7 @@ double CramerRule::determinant(vector<vector<double>> matrix)
     {                
         vector< vector<double> > subMatrix(rows-1);
 		
-        for (int y = 1; y < rows; y++)
+        for (unsigned int y = 1; y < rows; y++)
         {
 			vector<double> v(cols-1);
 			subMatrix[y-1] = v;

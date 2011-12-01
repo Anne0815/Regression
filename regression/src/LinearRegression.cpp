@@ -49,8 +49,8 @@ vector<double> LinearRegression::calculateCoefficients(unsigned int m, const vec
 	for(unsigned int i = 0; i < m; ++i)
 		matrix[i] = vector<double>(m, 0.0);
 
-	//xValues.clear();
-	//tValues.clear();
+	xValues.clear();
+	tValues.clear();
 	xValues.resize((m*2), 0.0);
 	tValues.resize(m, 0.0);
 

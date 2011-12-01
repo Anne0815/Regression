@@ -80,7 +80,7 @@ bool GaussElimination::changeValuesInRow(vector<vector<double>>& matrix, int ind
 	if(matrix[indexRow][indexRow] != 0 ) return true;
 
 	// wenn i.zeile zahl in spalte i = 0, tausche mit zeile darunter!!, wo zahl in i.spalte != 0 -> falls nicht da, gs nicht lösbar
-	for(int rowCounter = indexRow+1; rowCounter < row; ++rowCounter)
+	for(unsigned int rowCounter = indexRow+1; rowCounter < row; ++rowCounter)
 	{
 		double value = matrix[rowCounter][indexRow];
 		if(value != 0.0)

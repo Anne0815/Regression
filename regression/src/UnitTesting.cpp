@@ -322,7 +322,7 @@ void UnitTesting::test_detectOptimalByCalcErms()
 		erms_training[m] = ermsTr;
 		cout << "M = " << m << endl;
 		cout << "f(x) = ";
-		for(int i = 0; i < coefficients.size(); ++i)
+		for(unsigned int i = 0; i < coefficients.size(); ++i)
 			cout << coefficients[i] << " * x hoch " << i << " + ";
 		cout << endl << endl;
 		cout << "ERMS Training: " << ermsTr << endl << endl << endl;

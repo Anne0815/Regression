@@ -28,11 +28,13 @@ void unittesting()
     //ui.test_createMatrixLinearEquationsSystem();
     //ui.test_getDataPoints(filename);
 	//ui.test_determinant();
-	//ui.test_solveLinearEquation();
+	//ui.test_solveLinearEquationByCramerRule();
+	ui.test_solveLinearEquationByGauss();
+	ui.test_solveLinearEquationByGaussBigFloat();
 	//ui.test_bigfloatOperator();
 	//ui.test_solveLinearEquationByGauss();
 	//ui.test_calcErms();
-	ui.test_detectOptimalByCalcErms();
+	//ui.test_detectOptimalByCalcErms();
 }
 
 void graphic( shared_ptr<QViewChart> view)
@@ -227,11 +229,11 @@ int main(int argc, char *argv[])
 	view->show();
 
 	//graphic(view);
-    //unittesting();
+    unittesting();
 
     //firstLinearRegression(view);
 
-	detectOptimalM(view);
+	//detectOptimalM(view);
    
 	return app.exec();
 }

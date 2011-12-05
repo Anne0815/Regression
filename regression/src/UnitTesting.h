@@ -20,6 +20,7 @@ public:
 	DLL void test_solveLinearEquationByCramerRule();
 
 	DLL void test_solveLinearEquationByGauss();
+	DLL void test_solveLinearEquationByGaussBigFloat();
 
 	DLL void test_bigfloatOperatorOverloading();
 
@@ -27,5 +28,6 @@ public:
 	DLL void test_detectOptimalByCalcErms();
 
 private:
+	void generateMatrixAndVector(vector<vector<double>>& matrix, vector<double>& v);
 };
 #endif

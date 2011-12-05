@@ -170,9 +170,8 @@ void UnitTesting::test_solveLinearEquationByCramerRule()
 // 4   -5  -2  -8 = -17
 // 0   -5   0  -4 = -23
 // 4  -10   0 -16 =   2
-void UnitTesting::test_solveLinearEquationByGauss()
+void UnitTesting::generateMatrixAndVector(vector<vector<double>>& matrix, vector<double>& v)
 {
-	vector<vector<double>> matrix(4);
 	matrix[0].push_back(0);
 	matrix[0].push_back(10);
 	matrix[0].push_back(0);
@@ -193,16 +192,31 @@ void UnitTesting::test_solveLinearEquationByGauss()
 	matrix[3].push_back(0);
 	matrix[3].push_back(-16);
 
-	vector<double> v(4);
 	v[0] = -6;
 	v[1] = -17;
 	v[2] = -23;
 	v[3] = 2;
-
+}
+void UnitTesting::test_solveLinearEquationByGauss()
+{
+	vector<vector<double>> matrix(4);
+	vector<double> v(4);
+	generateMatrixAndVector(matrix, v);
 	GaussElimination gauss;
 	vector<double> result = gauss.solveLinearEquation(matrix, v);
 
-	cout << "solve linear equation by gauss = {-14, 15, -5, -13} = " << "{" << result[0] << ", " << result[1] << ", " << result[2] << ", " << result[3] << "}" << endl;
+	cout << "solve linear equation by gauss with double = {-14, 15, -5, -13} = " << "{" << result[0] << ", " << result[1] << ", " << result[2] << ", " << result[3] << "}" << endl;
+}
+
+void UnitTesting::test_solveLinearEquationByGaussBigFloat()
+{
+	vector<vector<double>> matrix(4);
+	vector<double> v(4);
+	generateMatrixAndVector(matrix, v);
+	GaussElimination gauss;
+	vector<double> result = gauss.solveLinearEquationByBigFloat(matrix, v);
+
+	cout << "solve linear equation by gauss with BigFloat = {-14, 15, -5, -13} = " << "{" << result[0] << ", " << result[1] << ", " << result[2] << ", " << result[3] << "}" << endl;
 }
 
 void UnitTesting::test_bigfloatOperatorOverloading()

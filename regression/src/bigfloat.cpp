@@ -345,6 +345,24 @@ int BigFloat::divide(class BigFloat * a, class BigFloat * b)
 
 	return 0;
 }
+
+int BigFloat::pow(class BigFloat* a, int exp)
+{
+	if( exp == 0 ) 
+	{
+		this->set_with_double(1.0);
+		return 0;
+	}
+
+	BigFloat result = *a;
+	for(int i = 1; i < exp; ++i)
+		result *= *a;
+
+	*this = result;
+
+	return 0;
+}
+
 int BigFloat::reciprocal(class BigFloat * a)
 {
 	if(a->is_zero())

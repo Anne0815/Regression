@@ -282,6 +282,23 @@ void UnitTesting::test_bigfloatOperatorOverloading()
 	a.set_with_double(111.11);
 	cout << "a wird geändert: " << a.getdouble() << endl;
 	cout << "copy (darf sich nicht mitverändern) = " << bf.getdouble() << endl;
+	cout << "*****************************************************************" << endl;
+
+	BigFloat s(2.0);
+	BigFloat result;
+
+	int exp = 0;
+	result.pow(&s, exp);
+	cout << "pow(2.0, 0) = 1 = " << result.getdouble() << endl;
+	exp = 1;
+	result.pow(&s, exp);
+	cout << "pow(2.0, 1) = 2 = " << result.getdouble() << endl;
+	exp = 2;
+	result.pow(&s, exp);
+	cout << "pow(2.0, 2) = 4 = " << result.getdouble() << endl;
+	exp = 3;
+	result.pow(&s, exp);
+	cout << "pow(2.0, 3) = 8 = " << result.getdouble() << endl;
 }
 
 void UnitTesting::test_calcErms()

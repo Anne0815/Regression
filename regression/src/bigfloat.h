@@ -65,6 +65,7 @@ public:
 	int subtract(class BigFloat * a, class BigFloat * b);
 	int multiply(class BigFloat * a, class BigFloat * b);
 	int divide(class BigFloat * a, class BigFloat * b);
+	int pow(class BigFloat* a, int exp);
 	int reciprocal(class BigFloat * a);
 	int compare(class BigFloat * a);
 	int compare(class BigFloat * a, int numberRational);

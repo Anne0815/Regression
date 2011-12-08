@@ -30,9 +30,9 @@ void unittesting()
     //ui.test_getDataPoints(filename);
 	//ui.test_determinant();
 	//ui.test_solveLinearEquationByCramerRule();
-	ui.test_solveLinearEquationByGauss();
-	ui.test_solveLinearEquationByGaussBigFloat();
-	//ui.test_bigfloatOperator();
+	//ui.test_solveLinearEquationByGauss();
+	//ui.test_solveLinearEquationByGaussBigFloat();
+	ui.test_bigfloatOperatorOverloading();
 	//ui.test_solveLinearEquationByGauss();
 	//ui.test_calcErms();
 	//ui.test_detectOptimalByCalcErms();
@@ -289,11 +289,11 @@ int main(int argc, char *argv[])
 	viewFunction->show();
 
 	//graphic(view);
-    //unittesting();
+    unittesting();
 
     //firstLinearRegression(view);
 
-	detectOptimalM(controller, view, viewFunction);
+	//detectOptimalM(controller, view, viewFunction);
 
 	/*vector<double> origin;
 	fillOrigin(origin);

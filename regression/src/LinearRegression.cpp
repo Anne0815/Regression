@@ -61,17 +61,52 @@ vector<double> LinearRegression::calculateCoefficients(unsigned int m, const vec
 
 vector<double> LinearRegression::calculateCoefficientsBigFloat(unsigned int m, const vector<DataPoint>& dataPoints)
 {
-	matrix.clear();
-	matrix.resize(m);
+	matrixBigFloat.clear();
+	matrixBigFloat.resize(m);
 
 	for(unsigned int i = 0; i < m; ++i)
-		matrix[i] = vector<double>(m, 0.0);
+		matrixBigFloat[i] = vector<BigFloat>(m, 0.0);
 
-	xValues.clear();
-	tValues.clear();
-	xValues.resize((m*2), 0.0);
-	tValues.resize(m, 0.0);
+	xValuesBigFloat.clear();
+	tValuesBigFloat.clear();
+	xValuesBigFloat.resize((m*2), 0.0);
+	tValuesBigFloat.resize(m, 0.0);
 
-	createMatrixLinearEquationsSystem(dataPoints, m);
-	return gauss.solveLinearEquationByBigFloat(matrix, tValues);
+	createMatrixLinearEquationsSystemBigFloat(dataPoints, m);
+	//return gauss.solveLinearEquationByBigFloat(matrix, tValues);
+	return gauss.solveLinearEquationByBigFloat(matrixBigFloat, tValuesBigFloat);
+}
+
+void LinearRegression::createMatrixLinearEquationsSystemBigFloat(const vector<DataPoint>& dataPoints, unsigned int m)
+{
+	createLookUpTablesBigFloat(dataPoints);
+
+	for( unsigned int row = 0; row < m; ++row )
+	{
+		for( unsigned int column = 0; column < m; ++column )
+			matrixBigFloat[row][column] = xValuesBigFloat[row+column];
+	}
+}
+
+void LinearRegression::createLookUpTablesBigFloat(const vector<DataPoint>& dataPoints)
+{
+	DataPoint cdp;
+	
+	for(unsigned int n = 0; n < dataPoints.size(); ++n)
+	{
+		cdp = dataPoints[n];
+		for(int j = 0; j < xValuesBigFloat.size(); ++j)
+		{
+			//double xpowj = pow(cdp.x, j);
+			BigFloat bf;
+			bf.pow( &BigFloat(cdp.x), j );
+
+			xValuesBigFloat[j] += bf;
+			//xValues[j] += xpowj;
+
+			if( j < tValuesBigFloat.size() )
+				//tValuesBigFloat[j] += cdp.t * xpowj; 
+				tValuesBigFloat[j] += BigFloat(cdp.t) * bf;
+		}	
+	}
 }

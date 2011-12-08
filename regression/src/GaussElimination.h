@@ -12,6 +12,7 @@ public:
 
 	vector<double> solveLinearEquation(vector<vector<double>> matrix, vector<double> vector);
 	vector<double> solveLinearEquationByBigFloat(vector<vector<double>> matrix, vector<double> vector);
+	vector<double> solveLinearEquationByBigFloat(vector<vector<BigFloat>> matrix, vector<BigFloat> vector);
 
 private:
 	bool handleEliminatingValuesInRow(vector<vector<double>>& matrix, int indexDiagonal);

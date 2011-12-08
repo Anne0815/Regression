@@ -177,7 +177,7 @@ void compareCoefficientsDoubleBigFloat( shared_ptr<QViewChart> view, vector<doub
 		cout << endl;
 		cout << originCoefficients[i] << '\t' << '\t' << coefficientsDouble[i] << '\t' << '\t' << coefficientsBigFloat[i] << endl;
 		double ratioDouble = 100 - (coefficientsDouble[i] * 100 / originCoefficients[i]);
-		double ratioBigFloat = 100 - (coefficientsDouble[i] * 100 / coefficientsBigFloat[i]);
+		double ratioBigFloat = 100 - (coefficientsBigFloat[i] * 100 / originCoefficients[i]);
 		cout << 100 << '\t' << '\t' << ratioDouble << '\t' << '\t' << ratioBigFloat << endl;
 	}
 }
@@ -289,15 +289,15 @@ int main(int argc, char *argv[])
 	viewFunction->show();
 
 	//graphic(view);
-    unittesting();
+    //unittesting();
 
     //firstLinearRegression(view);
 
 	//detectOptimalM(controller, view, viewFunction);
 
-	/*vector<double> origin;
+	vector<double> origin;
 	fillOrigin(origin);
-	compareCoefficientsDoubleBigFloat(view, origin);*/
+	compareCoefficientsDoubleBigFloat(view, origin);
    
 	return app.exec();
 }

@@ -23,6 +23,9 @@ public:
 	void createLookUpTables(const vector<DataPoint>& dataPoints);
 	void createMatrixLinearEquationsSystem(const vector<DataPoint>& dataPoints, unsigned int m);
 
+	void createLookUpTablesBigFloat(const vector<DataPoint>& dataPoints);
+	void createMatrixLinearEquationsSystemBigFloat(const vector<DataPoint>& dataPoints, unsigned int m);
+
 private:
 	
 	CramerRule cramer;
@@ -31,6 +34,10 @@ private:
 	vector<double> xValues;
 	vector<double> tValues;
 	vector< vector<double> > matrix;
+
+	vector<BigFloat> xValuesBigFloat;
+	vector<BigFloat> tValuesBigFloat;
+	vector< vector<BigFloat> > matrixBigFloat;
 
 };
 #endif

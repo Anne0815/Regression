@@ -325,3 +325,87 @@ void GaussElimination::writeMatrix( vector<vector<BigFloat>>& matrixBF )
 		cout << endl;
 	}
 }
+
+vector<double> GaussElimination::solveLinearEquationByBigFloat(vector<vector<BigFloat>> matrix, vector<BigFloat> v)
+{
+	row = matrix.size();
+	col = matrix[0].size();
+
+	if( row != col )
+	{
+		cout << "It has to be a linear equation (row != col)." << endl;
+		return vector<double>(0);
+	}
+
+	if( row == 0 )
+	{
+		cout << "There are no member in equation (row = col = 0)." << endl;
+		return vector<double>(0);
+	}
+
+	if( row != v.size() )
+	{
+		cout << "Length of vector matched not matrix size." << endl;
+		return vector<double>(0);
+	}
+
+	// vector als zusätzliche spalte an matrix hängen
+	int newcol = col + 1;
+	for(unsigned int i = 0; i < row; ++i)
+	{
+		matrix[i].push_back(v[i]);
+	}
+
+	//// umwandlung in bigfloats und anhängen des vectors
+	//vector<vector<BigFloat>> matrixBF(row);
+	//unsigned int newcol = col + 1;
+
+	//for(unsigned int r = 0; r < row; ++r)
+	//{
+	//	vector<BigFloat> vBF(newcol);
+	//	matrixBF[r] = vBF;
+	//	for(unsigned c = 0; c < newcol; ++c)
+	//	{
+	//		BigFloat bf;
+	//		// letzte spalte kommt vom vector
+	//		if( c == col )
+	//			bf.set_with_double( v[r] );
+	//		else
+	//			bf.set_with_double( matrix[r][c] );
+
+	//		matrixBF[r][c] = bf;
+	//	}
+	//}
+
+	//writeMatrix(matrixBF);
+
+	// für alle reihen
+	for(unsigned int indexDiagonal = 0; indexDiagonal < row; ++indexDiagonal)
+	{
+		bool success = handleEliminatingValuesInRowByBigFloat(matrix, indexDiagonal);
+		if(!success)
+		{
+			cout << "Current row has problems. Row: " << indexDiagonal << endl;
+			return vector<double>(0);
+		}
+	}
+
+	// überprüfung, ob auch wirklich nur in matrix[indexDiagonal][indexDiagonal] == 1 und alles andere 0 ausser letzte spalte
+	/*bool success = testCorrectnessEndformByBigFloat(matrixBF);
+	
+	if(!success)
+	{
+		cout << "Endform of matrix is not correct." << endl;
+		return vector<double>(0);
+	}*/
+
+	//writeMatrix(matrix);
+
+	vector<double> coefficients(row);
+
+	// letzte spalte = coefficients -> return letzte spalte als vector
+	for(unsigned int i = 0; i < row; ++i)
+		coefficients[i] = matrix[i][col].getdouble();
+
+	return coefficients;
+}

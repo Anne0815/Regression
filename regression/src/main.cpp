@@ -77,14 +77,19 @@ void graphic( shared_ptr<QViewChart> view)
 	delete[] xValues, tValues;
 }
 
-vector<DataPoint> calculateTestPointsForGraphic(vector<double> coefficients, unsigned int& nPoints, unsigned int& originNPoints)
+// originNPoints is neccessary for keep in range with new points
+vector<DataPoint> calculateTestPointsForGraphic(vector<double> coefficients, unsigned int& nPoints, double maxX, double minX)
 {
 	vector<DataPoint> points(nPoints);
+
+	double range = maxX - minX;
+	//double ticks = range / nPoints - minX;
+	double ticks = range / nPoints;
 
 	for( unsigned int i = 0; i < nPoints; ++i )
 	{
 		DataPoint p;
-		double x = (double)(double(i * originNPoints) / (double)nPoints);
+		double x = (double)(double(i) * ticks );
 		p.x = x;
 		p.t = coefficients[0];
 		for(int exp = 1; exp < coefficients.size(); ++exp ) 
@@ -132,7 +137,9 @@ void firstLinearRegression( shared_ptr<QViewChart> view )
 	unsigned int n = 50;
 	double* xValues_50 = new double[n];
 	double* tValues_50 = new double[n];
-	datapoints2doublepointer( calculateTestPointsForGraphic(coefficients, n, number), xValues_50, tValues_50);
+	double maxX = dataPoints.at( dataPoints.size()-1 ).x;
+	double minX = dataPoints.at(0).x; 
+	datapoints2doublepointer( calculateTestPointsForGraphic(coefficients, n, maxX, minX), xValues_50, tValues_50);
 	//chartdir.addPlot(chart, xValues_50, tValues_50, n);
 	chartdir.addLine(chart, xValues_50, tValues_50, n, 0x009900);
 
@@ -165,7 +172,7 @@ void compareCoefficientsDoubleBigFloat( shared_ptr<QViewChart> view, vector<doub
 
 	cout << "origin" << '\t' << '\t' << "double" << '\t' << '\t' << "bigfloat" << endl;
 
-	for(int i = 0; i < m; ++i)
+	for(unsigned int i = 0; i < m; ++i)
 	{
 		cout << endl;
 		cout << originCoefficients[i] << '\t' << '\t' << coefficientsDouble[i] << '\t' << '\t' << coefficientsBigFloat[i] << endl;
@@ -175,7 +182,7 @@ void compareCoefficientsDoubleBigFloat( shared_ptr<QViewChart> view, vector<doub
 	}
 }
 
-void detectOptimalM( Controller& controller, shared_ptr<QViewChart> view )
+void detectOptimalM( Controller& controller, shared_ptr<QViewChart> view, shared_ptr<QViewChart> viewFunction )
 {
 	unsigned int number = 100;
 	vector<DataPoint> datapoints(number);
@@ -191,12 +198,20 @@ void detectOptimalM( Controller& controller, shared_ptr<QViewChart> view )
 	// Erms für testpoints
 	vector<double> erms_test(mMax);
 
-	controller.linearRegressionByOptimalM(datapoints, erms_training, erms_test, mMax, mMin);
+	vector<double> coefficients = controller.linearRegressionByOptimalM(datapoints, erms_training, erms_test, mMax, mMin);
+	if(coefficients.size() == 0)
+	{
+		cout << "There are no coefficients" << endl;
+		return;
+	}
 	
+	/****************************************************   drawing   *************************************************/
 	// m = waagerechte achse, erms = senkrechte achse
 	ChartDirector chartdir;
-	XYChart chart(1, 1);
+	XYChart chartError(1, 1);
+	XYChart chartFunction(1, 1);
 
+	// error
 	double* mValues = new double[mMax];
 	double* ermsTrainingValues = new double[mMax];
 	double* ermsTestValues = new double[mMax];
@@ -208,17 +223,43 @@ void detectOptimalM( Controller& controller, shared_ptr<QViewChart> view )
 		ermsTestValues[i] = erms_test[i];
 	}
 
-	chartdir.createChart(chart, "Calculating optimal M", "m", "erms");
-	chartdir.addPlot(chart, mValues, ermsTrainingValues, mMax);
-	chartdir.addLine(chart, mValues, ermsTrainingValues, mMax, 0x009900);
-	chartdir.addPlot(chart, mValues, ermsTestValues, mMax); 
-	chartdir.addLine(chart, mValues, ermsTestValues, mMax, 0x000099);
+	chartdir.createChart(chartError, "Calculating optimal M", "m", "erms");
+	chartdir.addPlot(chartError, mValues, ermsTrainingValues, mMax);
+	chartdir.addLine(chartError, mValues, ermsTrainingValues, mMax, 0x009900);
+	chartdir.addPlot(chartError, mValues, ermsTestValues, mMax); 
+	chartdir.addLine(chartError, mValues, ermsTestValues, mMax, 0x000099);
 
-	view->setChart(&chart);
+	view->setChart(&chartError);
+
+	// function
+	double* xValues = new double[number];
+	double* tValues = new double[number];
+	datapoints2doublepointer(datapoints, xValues, tValues);
+
+	chartdir.createChart(chartFunction, "Linear Regression", "x", "t");
+	unsigned int i = datapoints.size();
+	chartdir.addPlot(chartFunction, xValues, tValues, i);
+
+	// minimum size of number datapoints
+	unsigned int n = 200;
+	double* xValues_50 = new double[n];
+	double* tValues_50 = new double[n];
+	double maxX = datapoints.at( datapoints.size()-1 ).x;
+	double minX = datapoints.at(0).x; 
+	datapoints2doublepointer( calculateTestPointsForGraphic(coefficients, n, maxX, minX), xValues_50, tValues_50);
+
+	chartdir.addLine(chartFunction, xValues_50, tValues_50, n, 0x009900);
+	viewFunction->setChart(&chartFunction);
 
 	delete[] mValues;
 	delete[] ermsTrainingValues;
 	delete[] ermsTestValues;
+
+	delete[] xValues;
+	delete[] tValues;
+
+	delete[] xValues_50;
+	delete[] tValues_50;
 }
 
 void fillOrigin( vector<double>& origin )
@@ -241,16 +282,18 @@ int main(int argc, char *argv[])
 	QApplication app(argc, argv);
 
 	shared_ptr<QViewChart> view = make_shared<QViewChart>();
+	shared_ptr<QViewChart> viewFunction = make_shared<QViewChart>();
 	Controller controller;
   
 	view->show();
+	viewFunction->show();
 
 	//graphic(view);
     //unittesting();
 
     //firstLinearRegression(view);
 
-	detectOptimalM(controller, view);
+	detectOptimalM(controller, view, viewFunction);
 
 	/*vector<double> origin;
 	fillOrigin(origin);

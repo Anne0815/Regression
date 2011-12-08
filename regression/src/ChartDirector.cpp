@@ -34,7 +34,7 @@ void ChartDirector::addPlot(XYChart& chart, double* xValues, double* yValues, un
 	DoubleArray xd(xValues, number);
     DoubleArray td(yValues, number);
 	
-	chart.addScatterLayer(xd, td, "Measurement", Chart::CircleShape, 5, 0x000000);
+	chart.addScatterLayer(xd, td, "Measurement", Chart::CircleShape, 3, 0x000000);
 }
 
 void ChartDirector::addCurve(XYChart& chart, double* xValues, double* yValues, unsigned int& number)

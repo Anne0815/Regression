@@ -25,6 +25,7 @@ void LinearRegression::createLookUpTables(const vector<DataPoint>& dataPoints)
 
 			if( j < tValues.size() )
 				tValues[j] += cdp.t * xpowj; 
+
 		}	
 	}
 }

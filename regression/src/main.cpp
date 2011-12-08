@@ -8,6 +8,7 @@
 #include "DataGenerator.h"
 #include "LinearRegression.h"
 #include "Regularization.h"
+#include "Controller.h"
 
 #include "UnitTesting.h"
 
@@ -174,51 +175,24 @@ void compareCoefficientsDoubleBigFloat( shared_ptr<QViewChart> view, vector<doub
 	}
 }
 
-void detectOptimalM( shared_ptr<QViewChart> view )
+void detectOptimalM( Controller& controller, shared_ptr<QViewChart> view )
 {
-	// 10 trainingdp, 90 testdp = 100 datapoints
-	vector<DataPoint> datapoints(100);
-	vector<DataPoint> trainingDatapoints(10);
 	unsigned int number = 100;
-	unsigned int mMax = 11;
-
-	// Erms für trainingpoints
-	vector<double> erms_training(mMax);
-	// Erms für testpoints
-	vector<double> erms_test(mMax);
-	// lineare regression, fehler berechner
-	LinearRegression regression;
-	Regularization regularization;
+	vector<DataPoint> datapoints(number);
 
 	// datenpunkte generieren
 	DataGenerator generator;
 	generator.generateDataSinNoise(number, datapoints);
 
-	// aufteilen in 10 für training und 90 zum testen
-	for(unsigned int i = 0; i < trainingDatapoints.size(); ++i)
-	{
-		unsigned int index = i * 10;
-		trainingDatapoints[i] = datapoints[index];
-		index = index == 0 ? 0 : index -1;
-		datapoints.erase(datapoints.begin() + index);
-	}
+	unsigned int mMin = 1;
+	unsigned int mMax = 11;
+	// Erms für trainingpoints
+	vector<double> erms_training(mMax);
+	// Erms für testpoints
+	vector<double> erms_test(mMax);
 
-	// lineare regression
-	for( unsigned int m = 1; m < mMax; ++m )
-	{
-		// koeffizienten berechnen anhand von training datapoints
-		vector<double> coefficients = regression.calculateCoefficients(m, trainingDatapoints);
-		// fehler berechnen für trainingset und testset
-		double ermsTr = regularization.calcErms(trainingDatapoints, coefficients);
-		erms_training[m] = ermsTr;
-		cout << "M = " << m << endl;
-		cout << "ERMS Training: " << ermsTr << endl;
-
-		double ermsTe = regularization.calcErms(datapoints, coefficients);
-		erms_test[m] = ermsTe;
-		cout << "ERMS Test: " << ermsTe << endl << endl;
-	}
-
+	controller.linearRegressionByOptimalM(datapoints, erms_training, erms_test, mMax, mMin);
+	
 	// m = waagerechte achse, erms = senkrechte achse
 	ChartDirector chartdir;
 	XYChart chart(1, 1);
@@ -234,7 +208,6 @@ void detectOptimalM( shared_ptr<QViewChart> view )
 		ermsTestValues[i] = erms_test[i];
 	}
 
-	//chartdir.createChart(chart, mValues, ermsTrainingValues, mMax);
 	chartdir.createChart(chart, "Calculating optimal M", "m", "erms");
 	chartdir.addPlot(chart, mValues, ermsTrainingValues, mMax);
 	chartdir.addLine(chart, mValues, ermsTrainingValues, mMax, 0x009900);
@@ -262,24 +235,26 @@ void fillOrigin( vector<double>& origin )
 	origin.push_back(125201.43);
 }
 
+
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 
 	shared_ptr<QViewChart> view = make_shared<QViewChart>();
+	Controller controller;
   
-	//view->show();
+	view->show();
 
 	//graphic(view);
     //unittesting();
 
     //firstLinearRegression(view);
 
-	//detectOptimalM(view);
+	detectOptimalM(controller, view);
 
-	vector<double> origin;
+	/*vector<double> origin;
 	fillOrigin(origin);
-	compareCoefficientsDoubleBigFloat(view, origin);
+	compareCoefficientsDoubleBigFloat(view, origin);*/
    
 	return app.exec();
 }

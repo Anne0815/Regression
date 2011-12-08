@@ -85,7 +85,7 @@ vector<double> GaussElimination::solveLinearEquationByBigFloat(vector<vector<dou
 
 	// umwandlung in bigfloats und anhängen des vectors
 	vector<vector<BigFloat>> matrixBF(row);
-	int newcol = col + 1;
+	unsigned int newcol = col + 1;
 
 	for(unsigned int r = 0; r < row; ++r)
 	{

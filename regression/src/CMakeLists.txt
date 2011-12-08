@@ -31,9 +31,9 @@ QT4_WRAP_CPP( MOC_SRCS ${MOC_HDRS} )
 SET( VIEW_HDRS ChartDirector.h ${MOC_HDRS} )
 SET( VIEW_SRCS ChartDirector.cpp main.cpp QViewChart.cpp ${MOC_SRCS})
 
-SET( REGR_HDRS bigfloat.h CramerRule.h DataGenerator.h DataImporter.h Dll.h 
+SET( REGR_HDRS bigfloat.h Controller.h CramerRule.h DataGenerator.h DataImporter.h Dll.h 
 		GaussElimination.h global.h LinearRegression.h Regularization.h UnitTesting.h )
-SET( REGR_SRCS bigfloat.cpp bigfloatdec.cpp CramerRule.cpp DataGenerator.cpp DataImporter.cpp 
+SET( REGR_SRCS bigfloat.cpp bigfloatdec.cpp Controller.cpp CramerRule.cpp DataGenerator.cpp DataImporter.cpp 
 		GaussElimination.cpp LinearRegression.cpp Regularization.cpp UnitTesting.cpp )
 
 

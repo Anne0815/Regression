@@ -13,6 +13,7 @@ public:
 	DLL virtual ~LinearRegression();
 
 	DLL vector<double> calculateCoefficients(unsigned int m, const vector<DataPoint>& dataPoints);
+	DLL vector<double> calculateCoefficientsBigFloat(unsigned int m, const vector<DataPoint>& dataPoints);
 
 	// for testing
 	vector<double> getXValues()							{ return xValues; }

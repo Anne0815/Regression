@@ -869,6 +869,28 @@ int BigFloat::compare(class BigFloat * a)
 	return 0;
 }
 
+int BigFloat::compare(class BigFloat* a, int numberRational)
+{
+	if(exp != a->exp)
+	{
+		if(a->exp > exp)
+			return 1;
+		return -1;
+	}
+	for(int i=0; i<numberRational; i++)
+	{
+		if(data[i] != a->data[i])
+		{
+			if(a->data[i] > data[i])
+				return 1;
+			else
+				return -1;
+		}
+	}
+	
+	return 0;
+}
+
 int BigFloat::compare_sign(class BigFloat * a)
 {
 	if(a->sign != sign)

@@ -67,6 +67,7 @@ public:
 	int divide(class BigFloat * a, class BigFloat * b);
 	int reciprocal(class BigFloat * a);
 	int compare(class BigFloat * a);
+	int compare(class BigFloat * a, int numberRational);
 	int compare_sign(class BigFloat * a); // returns 1 if signs are the same, -1 if different
 
 	int get_exp();

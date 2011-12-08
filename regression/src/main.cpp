@@ -146,6 +146,34 @@ void firstLinearRegression( shared_ptr<QViewChart> view )
 	delete[] xValues_50, tValues_50;
 }
 
+void compareCoefficientsDoubleBigFloat( shared_ptr<QViewChart> view, vector<double>& originCoefficients )
+{
+	vector<DataPoint> dataPoints;
+	unsigned int number = 10;
+	unsigned int m = 10;
+
+	// get data points from dataimporter
+	DataImporter importer;
+	importer.getDataPoints(view->openDirectory(), dataPoints);
+
+	// by double
+	LinearRegression linReg;
+	vector<double> coefficientsDouble = linReg.calculateCoefficients(m, dataPoints);
+	// by bigfloat
+	vector<double> coefficientsBigFloat = linReg.calculateCoefficientsBigFloat(m, dataPoints);
+
+	cout << "origin" << '\t' << '\t' << "double" << '\t' << '\t' << "bigfloat" << endl;
+
+	for(int i = 0; i < m; ++i)
+	{
+		cout << endl;
+		cout << originCoefficients[i] << '\t' << '\t' << coefficientsDouble[i] << '\t' << '\t' << coefficientsBigFloat[i] << endl;
+		double ratioDouble = 100 - (coefficientsDouble[i] * 100 / originCoefficients[i]);
+		double ratioBigFloat = 100 - (coefficientsDouble[i] * 100 / coefficientsBigFloat[i]);
+		cout << 100 << '\t' << '\t' << ratioDouble << '\t' << '\t' << ratioBigFloat << endl;
+	}
+}
+
 void detectOptimalM( shared_ptr<QViewChart> view )
 {
 	// 10 trainingdp, 90 testdp = 100 datapoints
@@ -220,20 +248,38 @@ void detectOptimalM( shared_ptr<QViewChart> view )
 	delete[] ermsTestValues;
 }
 
+void fillOrigin( vector<double>& origin )
+{
+	origin.push_back(0.35);
+	origin.push_back(232.37);
+	origin.push_back(-5321.83);
+	origin.push_back(48568.31);
+	origin.push_back(-231639.30);
+	origin.push_back(640042.26);
+	origin.push_back(-1061800.52);
+	origin.push_back(1042400.18);
+	origin.push_back(-557682.99);
+	origin.push_back(125201.43);
+}
+
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 
 	shared_ptr<QViewChart> view = make_shared<QViewChart>();
   
-	view->show();
+	//view->show();
 
 	//graphic(view);
-    unittesting();
+    //unittesting();
 
     //firstLinearRegression(view);
 
 	//detectOptimalM(view);
+
+	vector<double> origin;
+	fillOrigin(origin);
+	compareCoefficientsDoubleBigFloat(view, origin);
    
 	return app.exec();
 }

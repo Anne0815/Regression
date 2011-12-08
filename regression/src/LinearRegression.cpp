@@ -57,3 +57,20 @@ vector<double> LinearRegression::calculateCoefficients(unsigned int m, const vec
 	createMatrixLinearEquationsSystem(dataPoints, m);
 	return gauss.solveLinearEquation(matrix, tValues);
 }
+
+vector<double> LinearRegression::calculateCoefficientsBigFloat(unsigned int m, const vector<DataPoint>& dataPoints)
+{
+	matrix.clear();
+	matrix.resize(m);
+
+	for(unsigned int i = 0; i < m; ++i)
+		matrix[i] = vector<double>(m, 0.0);
+
+	xValues.clear();
+	tValues.clear();
+	xValues.resize((m*2), 0.0);
+	tValues.resize(m, 0.0);
+
+	createMatrixLinearEquationsSystem(dataPoints, m);
+	return gauss.solveLinearEquationByBigFloat(matrix, tValues);
+}

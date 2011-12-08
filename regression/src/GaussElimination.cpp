@@ -104,7 +104,7 @@ vector<double> GaussElimination::solveLinearEquationByBigFloat(vector<vector<dou
 		}
 	}
 
-	writeMatrix(matrixBF);
+	//writeMatrix(matrixBF);
 
 	// für alle reihen
 	for(unsigned int indexDiagonal = 0; indexDiagonal < row; ++indexDiagonal)
@@ -118,13 +118,15 @@ vector<double> GaussElimination::solveLinearEquationByBigFloat(vector<vector<dou
 	}
 
 	// überprüfung, ob auch wirklich nur in matrix[indexDiagonal][indexDiagonal] == 1 und alles andere 0 ausser letzte spalte
-	bool success = testCorrectnessEndformByBigFloat(matrixBF);
+	/*bool success = testCorrectnessEndformByBigFloat(matrixBF);
 	
 	if(!success)
 	{
 		cout << "Endform of matrix is not correct." << endl;
 		return vector<double>(0);
-	}
+	}*/
+
+	writeMatrix(matrixBF);
 
 	vector<double> coefficients(row);
 
@@ -161,9 +163,9 @@ bool GaussElimination::handleEliminatingValuesInRowByBigFloat(vector<vector<BigF
 	// wenn i.zeile zahl in spalte i = 0, tausche mit zeile darunter!!, wo zahl in i.spalte != 0 -> falls nicht da, gs nicht lösbar
 	bool success = changeValuesInRowByBigFloat(matrix, indexDiagonal);
 
-	cout << "Go to identity row number " << indexDiagonal << endl;
+	/*cout << "Go to identity row number " << indexDiagonal << endl;
 	cout << "Matrix[" << indexDiagonal << "][" << indexDiagonal << "] have to be unequal 0. ";
-	writeMatrix(matrix);
+	writeMatrix(matrix);*/
 
 	if(!success)
 	{
@@ -176,14 +178,14 @@ bool GaussElimination::handleEliminatingValuesInRowByBigFloat(vector<vector<BigF
 	for(unsigned int i = 0; i <= col; ++i) //zusätzliche spalte angefügt durch vector
 		matrix[indexDiagonal][i] /= value;
 
-	cout << "Matrix[" << indexDiagonal << "][" << indexDiagonal << "] have to be 1. ";
-	writeMatrix(matrix);
+	/*cout << "Matrix[" << indexDiagonal << "][" << indexDiagonal << "] have to be 1. ";
+	writeMatrix(matrix);*/
 
 	// in i.spalte aller anderen zeilen muss 0 stehen (subtraktion eines geeigenten vielfaches der aktuellen zeile von allen anderen zeilen)
 	eliminateValuesByZeroInColByBigFloat(matrix, indexDiagonal);
 
-	cout << "Column number " << indexDiagonal << " must have zeros.";
-	writeMatrix(matrix);
+	/*cout << "Column number " << indexDiagonal << " must have zeros.";
+	writeMatrix(matrix);*/
 
 	return true;
 }
@@ -267,17 +269,17 @@ void GaussElimination::eliminateValuesByZeroInColByBigFloat(vector<vector<BigFlo
 
 		BigFloat multiplyer = matrix[i][indexCol];
 
-		cout << "Multiplyer Row Number " << i << " = " << multiplyer.getdouble() << endl;
+		//cout << "Multiplyer Row Number " << i << " = " << multiplyer.getdouble() << endl;
 
 		for(unsigned int j = 0; j <= col; ++j) //zusätzliche spalte angefügt durch vector
 		{
-			cout << "Matrix[" << i << "][" << j << "] = " << matrix[i][j].getdouble() << " (values of current row)" << endl;
-			cout << "Matrix[" << indexCol << "][" << j << "] = " << matrix[indexCol][j].getdouble() << endl;
+			//cout << "Matrix[" << i << "][" << j << "] = " << matrix[i][j].getdouble() << " (values of current row)" << endl;
+			//cout << "Matrix[" << indexCol << "][" << j << "] = " << matrix[indexCol][j].getdouble() << endl;
 
 			BigFloat temp = multiplyer * matrix[indexCol][j];
-			cout << matrix[indexCol][j].getdouble() << " * " << multiplyer.getdouble() << " = " << temp.getdouble() << endl;
+			//cout << matrix[indexCol][j].getdouble() << " * " << multiplyer.getdouble() << " = " << temp.getdouble() << endl;
 			BigFloat res = matrix[i][j] - temp;
-			cout << matrix[i][j].getdouble() << " - " << temp.getdouble() << " = " << res.getdouble() << endl;
+			//cout << matrix[i][j].getdouble() << " - " << temp.getdouble() << " = " << res.getdouble() << endl;
 			
 			matrix[i][j] = res;
 		}
@@ -306,7 +308,8 @@ bool GaussElimination::testCorrectnessEndformByBigFloat(vector<vector<BigFloat>>
 		if( matrix[i][i].compare( &BigFloat(1.0) ) != 0) return false;
 
 		for(unsigned int j = 0; j < col; ++j)	// zusätzliche spalte (col+1) sollte nicht 0 sein
-			if(matrix[i][j].compare( &BigFloat(0.0) ) != 0 && i !=j ) return false;
+			if(matrix[i][j].compare( &BigFloat(0.0), 100 ) != 0 && i !=j ) 
+				return false;
 	}
 
 	return true;

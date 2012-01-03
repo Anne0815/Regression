@@ -36,7 +36,7 @@ vector<double> Controller::linearRegressionByOptimalM( vector<DataPoint>& datapo
 
 	// optimal m, delta between errors
 	unsigned int optimal_M;
-	double delta = DBL_MAX;
+	double error = DBL_MAX;
 
 	// 10% for calculating coefficients, 90% for optimization
 	for(unsigned int i = 0; i < trainingDatapoints.size(); ++i)
@@ -63,14 +63,14 @@ vector<double> Controller::linearRegressionByOptimalM( vector<DataPoint>& datapo
 		cout << "ERMS Training: " << ermsTr << endl;
 		cout << "ERMS Test: " << ermsTe << endl << endl;
 
-		// optimal m results from little delta between test and training error
-		double curDelta = sqrt( pow((ermsTr - ermsTe), 2.0) );
-		if( curDelta < delta )
+		// optimal m results from smallest error of testset
+		if( ermsTe < error )
 		{
 			optimal_M = m;
-			delta = curDelta;
+			error = ermsTe;
 		}
 	}
 
+	cout << "optimal m = " << optimal_M << endl;
 	return coefficientsVectors[optimal_M - mMin];
 }

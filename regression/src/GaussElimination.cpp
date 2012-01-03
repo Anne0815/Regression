@@ -117,17 +117,6 @@ vector<double> GaussElimination::solveLinearEquationByBigFloat(vector<vector<dou
 		}
 	}
 
-	// überprüfung, ob auch wirklich nur in matrix[indexDiagonal][indexDiagonal] == 1 und alles andere 0 ausser letzte spalte
-	/*bool success = testCorrectnessEndformByBigFloat(matrixBF);
-	
-	if(!success)
-	{
-		cout << "Endform of matrix is not correct." << endl;
-		return vector<double>(0);
-	}*/
-
-	writeMatrix(matrixBF);
-
 	vector<double> coefficients(row);
 
 	// letzte spalte = coefficients -> return letzte spalte als vector
@@ -356,29 +345,6 @@ vector<double> GaussElimination::solveLinearEquationByBigFloat(vector<vector<Big
 		matrix[i].push_back(v[i]);
 	}
 
-	//// umwandlung in bigfloats und anhängen des vectors
-	//vector<vector<BigFloat>> matrixBF(row);
-	//unsigned int newcol = col + 1;
-
-	//for(unsigned int r = 0; r < row; ++r)
-	//{
-	//	vector<BigFloat> vBF(newcol);
-	//	matrixBF[r] = vBF;
-	//	for(unsigned c = 0; c < newcol; ++c)
-	//	{
-	//		BigFloat bf;
-	//		// letzte spalte kommt vom vector
-	//		if( c == col )
-	//			bf.set_with_double( v[r] );
-	//		else
-	//			bf.set_with_double( matrix[r][c] );
-
-	//		matrixBF[r][c] = bf;
-	//	}
-	//}
-
-	//writeMatrix(matrixBF);
-
 	// für alle reihen
 	for(unsigned int indexDiagonal = 0; indexDiagonal < row; ++indexDiagonal)
 	{
@@ -389,17 +355,6 @@ vector<double> GaussElimination::solveLinearEquationByBigFloat(vector<vector<Big
 			return vector<double>(0);
 		}
 	}
-
-	// überprüfung, ob auch wirklich nur in matrix[indexDiagonal][indexDiagonal] == 1 und alles andere 0 ausser letzte spalte
-	/*bool success = testCorrectnessEndformByBigFloat(matrixBF);
-	
-	if(!success)
-	{
-		cout << "Endform of matrix is not correct." << endl;
-		return vector<double>(0);
-	}*/
-
-	//writeMatrix(matrix);
 
 	vector<double> coefficients(row);
 

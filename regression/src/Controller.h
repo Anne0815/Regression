@@ -17,7 +17,8 @@ public:
 	// for drawing error plot
 	DLL vector<double> linearRegressionByOptimalM( vector<DataPoint>& datapoints, vector<double>& ermsTraining, vector<double>& ermsTest, const unsigned int mMax, const unsigned int mMin );
 
-	vector<double> linearRegressionByLambda( vector<DataPoint>& datapoints );
+	// for checking correctness of calculating
+	DLL vector<double> linearRegressionByLambda( vector<DataPoint>& datapoints );
 };
 
 #endif

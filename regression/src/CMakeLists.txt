@@ -25,11 +25,13 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CHARD_DIR})
 
 link_directories( ${EXTERN_DIR}/ChartDirector/lib )
 
-SET( MOC_HDRS QViewChart.h )
+QT4_WRAP_UI( ui_ControlView.h ControlView.ui )
+
+SET( MOC_HDRS QViewChart.h QControlView.h )
 QT4_WRAP_CPP( MOC_SRCS ${MOC_HDRS} )
 
-SET( VIEW_HDRS ChartDirector.h ${MOC_HDRS} )
-SET( VIEW_SRCS ChartDirector.cpp main.cpp QViewChart.cpp ${MOC_SRCS})
+SET( VIEW_HDRS ChartDirector.h QControlView.h ui_ControlView.h ${MOC_HDRS} )
+SET( VIEW_SRCS ChartDirector.cpp main.cpp QControlView.cpp QViewChart.cpp ${MOC_SRCS})
 
 SET( REGR_HDRS bigfloat.h Controller.h CramerRule.h DataGenerator.h DataImporter.h Dll.h 
 		GaussElimination.h global.h LinearRegression.h Regularization.h UnitTesting.h )

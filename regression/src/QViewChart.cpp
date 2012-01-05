@@ -79,3 +79,10 @@ void QViewChart::setImageMap(const char *imageMap)
     else
 		hotSpotTester = new ImageMapHandler(imageMap);
 }
+
+void QViewChart::closeEvent(QCloseEvent *event)
+{
+	shared_ptr<QViewChart> chart(this);
+    closeWindow(chart);
+	//closeWindow(make_shared( *this ) );
+}

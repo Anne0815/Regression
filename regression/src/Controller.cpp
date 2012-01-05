@@ -2,6 +2,12 @@
 #include "LinearRegression.h"
 #include "Regularization.h"
 
+vector<double> Controller::linearRegression( vector<DataPoint>& datapoints, const unsigned int m )
+{
+	LinearRegression regression;
+	return regression.calculateCoefficientsBigFloat(m, datapoints);
+}
+
 vector<double> Controller::linearRegressionByOptimalM( vector<DataPoint>& datapoints )
 {
 	// 3 - 10 coefficients
@@ -31,7 +37,7 @@ vector<double> Controller::linearRegressionByOptimalM( vector<DataPoint>& datapo
 	vector<vector<double>> coefficientsVectors(mMax);
 
 	// linear regression, optimization
-	LinearRegression regression;
+	//LinearRegression regression;
 	Regularization regularization;
 
 	// optimal m, delta between errors
@@ -51,7 +57,7 @@ vector<double> Controller::linearRegressionByOptimalM( vector<DataPoint>& datapo
 	for( unsigned int m = mMin; m < mMax; ++m )
 	{
 		// calculation coeeficients by training datapoints
-		vector<double> coefficients = regression.calculateCoefficients(m, trainingDatapoints);
+		vector<double> coefficients = linearRegression(trainingDatapoints, m); //regression.calculateCoefficients(m, trainingDatapoints);
 		// error for both sets and saving errors and coefficients
 		double ermsTr = regularization.calcErms(trainingDatapoints, coefficients);
 		ermsTraining[m] = ermsTr;

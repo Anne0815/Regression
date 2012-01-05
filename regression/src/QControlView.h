@@ -1,11 +1,14 @@
 #ifndef QCONTROLVIEW_H
 #define QCONTROLVIEW_H
 
+#include <memory>
+#include <set>
 #include <QMainWindow>
+
 #include "global.h"
 #include "ui_ControlView.h"
-#include "DataImporter.h"
-#include "DataGenerator.h"
+#include "Controller.h"
+#include "QViewChart.h"
 
 class QControlView : public QMainWindow, public Ui::MainWindow
 {
@@ -17,11 +20,13 @@ public:
 
 private:
 	QString openDirectory();
+	unsigned int dialogNumber(const QString title, const int min, const int max, const int defaultValue);  
+	void datapoints2doublepointer(const vector<DataPoint>& datapoints, double* x, double* t);
 
-	DataImporter importer;
-	DataGenerator generator;
+	Controller controller;
 
 	vector<DataPoint> dataPoints;
+	set<shared_ptr<QViewChart>> charts;
 
 private slots:
 	void openData();
@@ -29,6 +34,7 @@ private slots:
 	void regressionSimple();
 	void regressionOptimalM();
 	void regressionLambda();
+	void closeChart(shared_ptr<QViewChart> chart);
 };
 
 #endif

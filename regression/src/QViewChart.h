@@ -19,6 +19,8 @@ public:
 	virtual BaseChart* getChart()			{ return currentChart; }
 
 	virtual void setImageMap(const char *imageMap);
+
+	void closeEvent(QCloseEvent *event);
 	//QString openDirectory();
 
 private:
@@ -26,6 +28,9 @@ private:
 	ImageMapHandler* hotSpotTester;   // ImageMapHander representing the image map
 	int currentHotSpot;               // The hot spot under the mouse cursor.
 
-	
+signals:
+	void closeWindow( shared_ptr<QViewChart> chart );
+
 };
+
 #endif

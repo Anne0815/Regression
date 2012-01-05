@@ -41,41 +41,115 @@ void QControlView::generateData()
 
 void QControlView::regressionSimple()
 {
-	if(!dataPoints.size() > 0)
+	unsigned int nPoints = dataPoints.size();
+	if( !(nPoints > 0) )
 	{
 		cout << "There are no data points." << endl;
 		return;
 	}
 
 	unsigned int m = dialogNumber("Order of regression", 1, 12, 4);
-	unsigned int nPoints = dataPoints.size();
+	
+	// calculating coefficients
 	vector<double> coefficients = controller.linearRegression(dataPoints, m);
+	if(coefficients.size() == 0)
+	{
+		cout << "There are no coefficients" << endl;
+		return;
+	}
+
+	// init member for plotting
+	shared_ptr<QViewChart> viewChart = make_shared<QViewChart>();
+	connect( viewChart.get(), SIGNAL( closeWindow(shared_ptr<QViewChart>) ), this, SLOT( closeChart(shared_ptr<QViewChart>) ) );
+	// for saving and deleting - controlling of all chartviews
+	charts.insert(viewChart);
+
+	XYChart chart(1, 1);
+	chartdirector.createChart(chart, "Linear Regression simple", "x", "t");
 
 	// painting
-	double* xValues = new double[nPoints];
-	double* tValues = new double[nPoints];
-	datapoints2doublepointer(dataPoints, xValues, tValues);	// chartdirector expected double pointer
-
-	ChartDirector chartdirector;
-	XYChart chartFunction(1, 1);
-	chartdirector.createChart(chartFunction, "Linear Regression simple", "x", "t");
-	chartdirector.addPlot(chartFunction, xValues, tValues, nPoints);
-
-	shared_ptr<QViewChart> viewChart = make_shared<QViewChart>();
-
-	connect( viewChart.get(), SIGNAL( closeWindow(shared_ptr<QViewChart>) ), this, SLOT( closeChart(shared_ptr<QViewChart>) ) );
-
 	viewChart->show();
-	viewChart->setChart(&chartFunction);
-
-	charts.insert(viewChart);
+	paintingDatapoints(viewChart, chart, dataPoints);
+	paintingFunctionCurve(viewChart, chart, coefficients);
+	viewChart->setChart(&chart);
 
 	cout << "regression simple" << endl;
 }
 
 void QControlView::regressionOptimalM()
 {
-	cout << "regression optimal m" << endl;
+	unsigned int nPoints = dataPoints.size();
+	if( !(nPoints > 0) )
+	{
+		cout << "There are no data points." << endl;
+		return;
+	}
+
+	// init objects for painting errors of training and test sets
+	unsigned int mMin = 1;
+	unsigned int mMax = 11;
+	// Erms für trainingpoints
+	vector<double> erms_training(mMax);
+	// Erms für testpoints
+	vector<double> erms_test(mMax);
+
+	// calculating coefficients
+	vector<double> coefficients = controller.linearRegressionByOptimalM(dataPoints, erms_training, erms_test, mMax, mMin);
+	if(coefficients.size() == 0)
+	{
+		cout << "There are no coefficients" << endl;
+		return;
+	}
+
+	// plotting of function and datapoints
+
+	// init member for plotting
+	shared_ptr<QViewChart> viewChart = make_shared<QViewChart>();
+	connect( viewChart.get(), SIGNAL( closeWindow(shared_ptr<QViewChart>) ), this, SLOT( closeChart(shared_ptr<QViewChart>) ) );
+	// for saving and deleting - controlling of all chartviews
+	charts.insert(viewChart);
+
+	XYChart chart(1, 1);
+	chartdirector.createChart(chart, "Linear Regression By optimal M", "x", "t");
+
+	// painting
+	viewChart->show();
+	paintingDatapoints(viewChart, chart, dataPoints);
+	paintingFunctionCurve(viewChart, chart, coefficients);
+	viewChart->setChart(&chart);
+
+	// plotting error curves by test and training sets
+	shared_ptr<QViewChart> viewError = make_shared<QViewChart>();
+	connect( viewError.get(), SIGNAL( closeWindow(shared_ptr<QViewChart>) ), this, SLOT( closeChart(shared_ptr<QViewChart>) ) );
+	charts.insert(viewError);
+
+	XYChart chartError(1, 1);
+	chartdirector.createChart(chartError, "ERMS Training and Test", "m", "erms");
+
+	viewError->show();
+
+	 // error
+	double* mValues = new double[mMax];
+	double* ermsTrainingValues = new double[mMax];
+	double* ermsTestValues = new double[mMax];
+
+	for(unsigned int i = 0; i < mMax; ++i)
+	{
+		mValues[i] = i;
+		ermsTrainingValues[i] = erms_training[i];
+		ermsTestValues[i] = erms_test[i];
+	}
+
+	chartdirector.addPlot(chartError, mValues, ermsTrainingValues, mMax);
+	chartdirector.addLine(chartError, mValues, ermsTrainingValues, mMax, 0x009900);
+	chartdirector.addPlot(chartError, mValues, ermsTestValues, mMax); 
+	chartdirector.addLine(chartError, mValues, ermsTestValues, mMax, 0x000099);
+
+	viewError->setChart(&chartError);
+
+	delete[] mValues;
+	delete[] ermsTrainingValues;
+	delete[] ermsTestValues;
 }
 
 void QControlView::regressionLambda()
@@ -134,4 +208,59 @@ void QControlView::closeChart(shared_ptr<QViewChart> chart)
 {
 	charts.erase( charts.find(chart) );
 	cout << "delete chart" << endl;
+}
+
+// originNPoints is neccessary for keep in range with new points
+vector<DataPoint> QControlView::calculateTestPointsForGraphic(vector<double> coefficients, unsigned int& nPoints, double maxX, double minX)
+{
+	vector<DataPoint> points(nPoints);
+
+	double range = maxX - minX;
+	//double ticks = range / nPoints - minX;
+	double ticks = range / nPoints;
+
+	for( unsigned int i = 0; i < nPoints; ++i )
+	{
+		DataPoint p;
+		double x = (double)(double(i) * ticks );
+		p.x = x;
+		p.t = coefficients[0];
+		for(int exp = 1; exp < coefficients.size(); ++exp ) 
+			p.t +=  coefficients[exp] * pow(x, exp);
+		points[i] = p;
+	}
+
+	return points;
+}
+
+void QControlView::paintingDatapoints(shared_ptr<QViewChart> view, XYChart& chart, const vector<DataPoint>& points)
+{
+	unsigned int nPoints = points.size();
+
+	// chartdirector expected double pointer for painting in plot
+	double* xValues = new double[nPoints];
+	double* tValues = new double[nPoints];
+	datapoints2doublepointer(dataPoints, xValues, tValues);	
+	
+	// painting data points
+	chartdirector.addPlot(chart, xValues, tValues, nPoints);
+
+	delete[] xValues;
+	delete[] tValues;
+}
+
+void QControlView::paintingFunctionCurve(shared_ptr<QViewChart> view, XYChart& chart, vector<double> coefficients)
+{
+	// for painting curve of function it´s necessary to have many datapoints
+	unsigned int n = 50;
+	double* xValues = new double[n];
+	double* tValues = new double[n];
+	// keep in range of origin datapoints
+	double maxX = dataPoints.at( dataPoints.size()-1 ).x;
+	double minX = dataPoints.at(0).x; 
+	datapoints2doublepointer( calculateTestPointsForGraphic(coefficients, n, maxX, minX), xValues, tValues);
+	chartdirector.addLine(chart, xValues, tValues, n, 0x009900);
+
+	delete[] xValues;
+	delete[] tValues;
 }

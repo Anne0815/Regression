@@ -273,7 +273,7 @@ int main( int argc, char* argv[] )
 //	delete[] xValues_50;
 //	delete[] tValues_50;
 //}
-//
+
 //void lambda( Controller& controller, shared_ptr<QViewChart> view )
 //{
 //	// datapoints from book
@@ -319,13 +319,13 @@ int main( int argc, char* argv[] )
 //
 //    //firstLinearRegression(view);
 //
-//	//detectOptimalM(controller, view, viewFunction);
+//	detectOptimalM(controller, view, viewFunction);
 //
 //	/*vector<double> origin;
 //	fillOrigin(origin);
 //	compareCoefficientsDoubleBigFloat(view, origin);*/
 //
-//	lambda(controller, view);
+//	//lambda(controller, view);
 //   
 //	return app.exec();
 //}

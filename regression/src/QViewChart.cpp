@@ -3,8 +3,6 @@
 #include <QPalette>
 #include <QBrush>
 #include <QColor>
-#include <QFileDialog>
-#include <QDesktopServices>
 
 QViewChart::QViewChart(QWidget *parent) : QLabel(parent)
 {
@@ -29,12 +27,12 @@ QViewChart::QViewChart(QWidget *parent) : QLabel(parent)
 	this->setText(QString("Please choose a file for importing data!"));
 }
 
-QString QViewChart::openDirectory()
-{
-	QString qpath = QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation );
-	qpath = QFileDialog::getOpenFileName(0, tr("Open DataFile"), qpath, tr("Textfile (*.txt)"));
-	return qpath;
-}
+//QString QViewChart::openDirectory()
+//{
+//	QString qpath = QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation );
+//	qpath = QFileDialog::getOpenFileName(0, tr("Open DataFile"), qpath, tr("Textfile (*.txt)"));
+//	return qpath;
+//}
 
 /*
 Implemented by ChartDirector Team.

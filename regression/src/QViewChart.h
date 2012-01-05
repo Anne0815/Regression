@@ -19,7 +19,7 @@ public:
 	virtual BaseChart* getChart()			{ return currentChart; }
 
 	virtual void setImageMap(const char *imageMap);
-	QString openDirectory();
+	//QString openDirectory();
 
 private:
 	BaseChart* currentChart;          // Current BaseChart object

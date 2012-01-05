@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include "global.h"
 #include "ui_ControlView.h"
+#include "DataImporter.h"
+#include "DataGenerator.h"
 
 class QControlView : public QMainWindow, public Ui::MainWindow
 {
@@ -13,6 +15,13 @@ public:
 	QControlView(QMainWindow *parent = 0);
 	virtual ~QControlView(){}
 
+private:
+	QString openDirectory();
+
+	DataImporter importer;
+	DataGenerator generator;
+
+	vector<DataPoint> dataPoints;
 
 private slots:
 	void openData();

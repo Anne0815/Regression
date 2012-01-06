@@ -2,6 +2,18 @@
 #include "LinearRegression.h"
 #include "Regularization.h"
 
+vector<double> Controller::linearRegressionByDouble( vector<DataPoint>& datapoints, const unsigned int m )
+{
+	LinearRegression regression;
+	return regression.calculateCoefficients(m, datapoints);
+}
+
+vector<double> Controller::linearRegression( vector<DataPoint>& datapoints, const unsigned int m )
+{
+	LinearRegression regression;
+	return regression.calculateCoefficientsBigFloat(m, datapoints);
+}
+
 vector<double> Controller::linearRegressionByOptimalM( vector<DataPoint>& datapoints )
 {
 	// 3 - 10 coefficients
@@ -31,7 +43,7 @@ vector<double> Controller::linearRegressionByOptimalM( vector<DataPoint>& datapo
 	vector<vector<double>> coefficientsVectors(mMax);
 
 	// linear regression, optimization
-	LinearRegression regression;
+	//LinearRegression regression;
 	Regularization regularization;
 
 	// optimal m, delta between errors
@@ -51,8 +63,8 @@ vector<double> Controller::linearRegressionByOptimalM( vector<DataPoint>& datapo
 	for( unsigned int m = mMin; m < mMax; ++m )
 	{
 		// calculation coeeficients by training datapoints
-		//vector<double> coefficients = regression.calculateCoefficients(m, trainingDatapoints);
-		vector<double> coefficients = regression.calculateCoefficientsBigFloat(m, trainingDatapoints);
+
+		vector<double> coefficients = linearRegression(trainingDatapoints, m); //regression.calculateCoefficients(m, trainingDatapoints);
 
 		// error for both sets and saving errors and coefficients
 		double ermsTr = regularization.calcErms(trainingDatapoints, coefficients);
@@ -61,9 +73,9 @@ vector<double> Controller::linearRegressionByOptimalM( vector<DataPoint>& datapo
 		ermsTest[m] = ermsTe;
 		coefficientsVectors[m - mMin] = coefficients;
 		// output on console
-		cout << "M = " << m << endl;
+		/*cout << "M = " << m << endl;
 		cout << "ERMS Training: " << ermsTr << endl;
-		cout << "ERMS Test: " << ermsTe << endl << endl;
+		cout << "ERMS Test: " << ermsTe << endl << endl;*/
 
 		// optimal m results from smallest error of testset
 		if( ermsTe < error )
@@ -75,4 +87,29 @@ vector<double> Controller::linearRegressionByOptimalM( vector<DataPoint>& datapo
 
 	cout << "optimal m = " << optimal_M << endl;
 	return coefficientsVectors[optimal_M - mMin];
+}
+
+vector<double> Controller::linearRegressionByLambda(vector<DataPoint>& datapoints)
+{
+	LinearRegression linReg;
+
+	double lambda_1 = -18.0;
+	double lambda_2 = log(18.0);
+	
+	double lambda_3 = exp(-18.0);
+	double lambda_4 = exp( lambda_2 );
+
+	/*vector<double> c_1 = linReg.calculateCoefficientsBigFloatLambda(10, datapoints, lambda_1);
+	vector<double> c_2 = linReg.calculateCoefficientsBigFloatLambda(10, datapoints, lambda_2);*/
+	vector<double> c_3 = linReg.calculateCoefficientsBigFloatLambda(10, datapoints, lambda_3);
+	//vector<double> c_4 = linReg.calculateCoefficientsBigFloatLambda(10, datapoints, lambda_4);
+
+	//cout << "-18" << '\t' << "log(-18.0)" << '\t' << "exp(-18)" << '\t' << "exp( log(-18) )" << endl << endl;
+	for(int i = 0; i < 10; ++i)
+	{
+		//cout << c_1[i] << '\t' << c_3[i] << endl;
+		cout << c_3[i] << endl;
+	}
+
+	return vector<double>(0);
 }

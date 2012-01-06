@@ -5,10 +5,7 @@ project (Regression)
 # variablen
 
 set( EXTERN_DIR "${CMAKE_SOURCE_DIR}/../libs" )
-
-find_package( Qt4 4.6 COMPONENTS QtCore QtGui QtNetwork REQUIRED )
-
-include(${QT_USE_FILE})
+set( CHARD_DIR "${EXTERN_DIR}/ChartDirector/include/" )
 
 IF( ( WIN32 OR WIN64 ) AND NOT UNIX)
 
@@ -20,24 +17,38 @@ ENDIF( ${CMAKE_GENERATOR} STREQUAL "Visual Studio 10" )
 
 ENDIF( ( WIN32 OR WIN64 ) AND NOT UNIX )
 
-SET( CHARD_DIR ${EXTERN_DIR}/ChartDirector/include/ )
+
+# packages
+
+find_package( Qt4 4.6 COMPONENTS QtCore QtGui QtNetwork REQUIRED )
+
+
+# includes and link directories
+
+include(${QT_USE_FILE})
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CHARD_DIR})
 
-link_directories( ${EXTERN_DIR}/ChartDirector/lib )
+LINK_LIBRARIES( ${QT_QTMAIN_LIBRARY} )    #??????????????????
+link_directories( "${EXTERN_DIR}/ChartDirector/lib" )
 
-SET( MOC_HDRS QViewChart.h )
+
+# sources
+
+QT4_WRAP_UI( ui_ControlView.h ControlView.ui )
+
+set( MOC_HDRS QViewChart.h QControlView.h )
 QT4_WRAP_CPP( MOC_SRCS ${MOC_HDRS} )
 
-SET( VIEW_HDRS ChartDirector.h ${MOC_HDRS} )
-SET( VIEW_SRCS ChartDirector.cpp main.cpp QViewChart.cpp ${MOC_SRCS})
+set( VIEW_HDRS ChartDirector.h QControlView.h ui_ControlView.h ${MOC_HDRS} )
+set( VIEW_SRCS ChartDirector.cpp main.cpp QControlView.cpp QViewChart.cpp ${MOC_SRCS})
 
-SET( REGR_HDRS bigfloat.h Controller.h CramerRule.h DataGenerator.h DataImporter.h Dll.h 
+set( REGR_HDRS bigfloat.h Controller.h CramerRule.h DataGenerator.h DataImporter.h Dll.h 
 		GaussElimination.h global.h LinearRegression.h Regularization.h UnitTesting.h )
-SET( REGR_SRCS bigfloat.cpp bigfloatdec.cpp Controller.cpp CramerRule.cpp DataGenerator.cpp DataImporter.cpp 
+set( REGR_SRCS bigfloat.cpp bigfloatdec.cpp Controller.cpp CramerRule.cpp DataGenerator.cpp DataImporter.cpp 
 		GaussElimination.cpp LinearRegression.cpp Regularization.cpp UnitTesting.cpp )
 
 
-LINK_LIBRARIES( ${QT_QTMAIN_LIBRARY} )
+# executables and libraries
 
 add_library(LinearRegression SHARED ${REGR_HDRS} ${REGR_SRCS})
 target_link_libraries(LinearRegression ${QT_LIBRARIES} )
@@ -45,6 +56,8 @@ target_link_libraries(LinearRegression ${QT_LIBRARIES} )
 add_executable (View_Plot ${VIEW_HDRS} ${VIEW_SRCS}  )
 target_link_libraries(View_Plot LinearRegression ${QT_LIBRARIES} chartdir50.dll)
 
+
+# cpack: packaging
 
 INCLUDE(InstallRequiredSystemLibraries)
 SET(CPACK_PACKAGE_EXECUTABLES "View_Plot" "View_Plot")

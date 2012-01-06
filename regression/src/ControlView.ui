@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>240</width>
+    <height>180</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Control</string>
+  </property>
+  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>240</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuData">
+    <property name="title">
+     <string>Data</string>
+    </property>
+    <addaction name="actionOpen"/>
+    <addaction name="actionGenerate"/>
+   </widget>
+   <widget class="QMenu" name="menuRegression">
+    <property name="title">
+     <string>Regression</string>
+    </property>
+    <addaction name="actionSimple"/>
+    <addaction name="actionOptimal_M"/>
+    <addaction name="actionLambda"/>
+   </widget>
+   <widget class="QMenu" name="menuUnittest">
+    <property name="title">
+     <string>Unittest</string>
+    </property>
+    <widget class="QMenu" name="menuLinear_Equation">
+     <property name="title">
+      <string>Solve Linear Equation</string>
+     </property>
+     <addaction name="actionCramer_Rule"/>
+     <addaction name="actionGauss"/>
+     <addaction name="actionGauss_Big_Number"/>
+    </widget>
+    <addaction name="menuLinear_Equation"/>
+    <addaction name="actionOperator_overload_Big_Float"/>
+    <addaction name="actionError_Mean_Square"/>
+   </widget>
+   <addaction name="menuData"/>
+   <addaction name="menuRegression"/>
+   <addaction name="menuUnittest"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionOpen">
+   <property name="text">
+    <string>open</string>
+   </property>
+  </action>
+  <action name="actionGenerate">
+   <property name="text">
+    <string>generate</string>
+   </property>
+  </action>
+  <action name="actionSimple">
+   <property name="text">
+    <string>simple</string>
+   </property>
+  </action>
+  <action name="actionOptimal_M">
+   <property name="text">
+    <string>optimal M</string>
+   </property>
+  </action>
+  <action name="actionLambda">
+   <property name="text">
+    <string>lambda</string>
+   </property>
+  </action>
+  <action name="actionCramer_Rule">
+   <property name="text">
+    <string>Cramer Rule</string>
+   </property>
+  </action>
+  <action name="actionGauss">
+   <property name="text">
+    <string>Gauss</string>
+   </property>
+  </action>
+  <action name="actionGauss_Big_Number">
+   <property name="text">
+    <string>Gauss Big Number</string>
+   </property>
+  </action>
+  <action name="actionOperator_overload_Big_Float">
+   <property name="text">
+    <string>Operator Overload Big Float</string>
+   </property>
+  </action>
+  <action name="actionError_Mean_Square">
+   <property name="text">
+    <string>Error Mean Square</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

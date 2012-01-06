@@ -3,8 +3,6 @@
 #include <QPalette>
 #include <QBrush>
 #include <QColor>
-#include <QFileDialog>
-#include <QDesktopServices>
 
 QViewChart::QViewChart(QWidget *parent) : QLabel(parent)
 {
@@ -13,27 +11,6 @@ QViewChart::QViewChart(QWidget *parent) : QLabel(parent)
 	currentHotSpot = -1;
 
 	this->setMinimumSize(400, 300);
-	QFont font;
-	font.setPointSize(20);
-	font.setBold(true);
-	this->setFont(font);
-
-	QPalette palette;
-	QBrush brush(QColor(255, 255, 255, 255));
-	brush.setStyle(Qt::SolidPattern);
-	palette.setBrush(QPalette::Active, QPalette::WindowText, brush);
-	palette.setBrush(QPalette::Inactive, QPalette::WindowText, brush);
-	this->setPalette(palette);
-	
-	this->setStyleSheet("background-color: grey");
-	this->setText(QString("Please choose a file for importing data!"));
-}
-
-QString QViewChart::openDirectory()
-{
-	QString qpath = QDesktopServices::storageLocation( QDesktopServices::DocumentsLocation );
-	qpath = QFileDialog::getOpenFileName(0, tr("Open DataFile"), qpath, tr("Textfile (*.txt)"));
-	return qpath;
 }
 
 /*
@@ -80,4 +57,10 @@ void QViewChart::setImageMap(const char *imageMap)
         hotSpotTester = NULL;
     else
 		hotSpotTester = new ImageMapHandler(imageMap);
+}
+
+void QViewChart::closeEvent(QCloseEvent *event)
+{
+	shared_ptr<QViewChart> chart(this);
+    closeWindow(chart);
 }

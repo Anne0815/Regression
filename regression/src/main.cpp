@@ -293,11 +293,11 @@ int main(int argc, char *argv[])
 
     //firstLinearRegression(view);
 
-	//detectOptimalM(controller, view, viewFunction);
+	detectOptimalM(controller, view, viewFunction);
 
-	vector<double> origin;
+	/*vector<double> origin;
 	fillOrigin(origin);
-	compareCoefficientsDoubleBigFloat(view, origin);
+	compareCoefficientsDoubleBigFloat(view, origin);*/
    
 	return app.exec();
 }

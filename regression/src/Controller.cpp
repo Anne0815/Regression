@@ -51,7 +51,9 @@ vector<double> Controller::linearRegressionByOptimalM( vector<DataPoint>& datapo
 	for( unsigned int m = mMin; m < mMax; ++m )
 	{
 		// calculation coeeficients by training datapoints
-		vector<double> coefficients = regression.calculateCoefficients(m, trainingDatapoints);
+		//vector<double> coefficients = regression.calculateCoefficients(m, trainingDatapoints);
+		vector<double> coefficients = regression.calculateCoefficientsBigFloat(m, trainingDatapoints);
+
 		// error for both sets and saving errors and coefficients
 		double ermsTr = regularization.calcErms(trainingDatapoints, coefficients);
 		ermsTraining[m] = ermsTr;

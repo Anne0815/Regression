@@ -2,6 +2,12 @@
 #include "LinearRegression.h"
 #include "Regularization.h"
 
+vector<double> Controller::linearRegressionByDouble( vector<DataPoint>& datapoints, const unsigned int m )
+{
+	LinearRegression regression;
+	return regression.calculateCoefficients(m, datapoints);
+}
+
 vector<double> Controller::linearRegression( vector<DataPoint>& datapoints, const unsigned int m )
 {
 	LinearRegression regression;
@@ -65,9 +71,9 @@ vector<double> Controller::linearRegressionByOptimalM( vector<DataPoint>& datapo
 		ermsTest[m] = ermsTe;
 		coefficientsVectors[m - mMin] = coefficients;
 		// output on console
-		cout << "M = " << m << endl;
+		/*cout << "M = " << m << endl;
 		cout << "ERMS Training: " << ermsTr << endl;
-		cout << "ERMS Test: " << ermsTe << endl << endl;
+		cout << "ERMS Test: " << ermsTe << endl << endl;*/
 
 		// optimal m results from smallest error of testset
 		if( ermsTe < error )

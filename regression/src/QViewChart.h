@@ -21,7 +21,6 @@ public:
 	virtual void setImageMap(const char *imageMap);
 
 	void closeEvent(QCloseEvent *event);
-	//QString openDirectory();
 
 private:
 	BaseChart* currentChart;          // Current BaseChart object

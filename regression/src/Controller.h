@@ -10,6 +10,7 @@ public:
 	Controller(){}
 	virtual ~Controller(){}
 
+	DLL vector<double> linearRegressionByDouble( vector<DataPoint>& datapoints, const unsigned int m );
 	// simple linear regression with m as parameter
 	DLL vector<double> linearRegression( vector<DataPoint>& datapoints, const unsigned int m );
 	// for ronys excercise (2 < m < 9)

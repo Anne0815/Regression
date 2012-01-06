@@ -19,15 +19,17 @@ public:
 	QControlView(QMainWindow *parent = 0);
 	virtual ~QControlView(){}
 
-private:
 	QString openDirectory();
+
+private:
 
 	unsigned int dialogNumber(const QString title, const int min, const int max, const int defaultValue);  
 	void datapoints2doublepointer(const vector<DataPoint>& datapoints, double* x, double* t);
 	vector<DataPoint> calculateTestPointsForGraphic(vector<double> coefficients, unsigned int& nPoints, double maxX, double minX);
 
-	void paintingDatapoints(shared_ptr<QViewChart> view, XYChart& chart, const vector<DataPoint>& points);
-	void paintingFunctionCurve(shared_ptr<QViewChart> view, XYChart& chart, vector<double> coefficients);
+	void paintingDatapoints(XYChart& chart, const vector<DataPoint>& points);
+	void paintingFunctionCurve(XYChart& chart, vector<double>& coefficients);
+	void paintingErrorCurve(XYChart& chart, vector<double>& errors, int color);
 
 	Controller controller;
 	ChartDirector chartdirector;

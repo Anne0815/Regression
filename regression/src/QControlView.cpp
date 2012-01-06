@@ -69,8 +69,8 @@ void QControlView::regressionSimple()
 
 	// painting
 	viewChart->show();
-	paintingDatapoints(viewChart, chart, dataPoints);
-	paintingFunctionCurve(viewChart, chart, coefficients);
+	paintingDatapoints(chart, dataPoints);
+	paintingFunctionCurve(chart, coefficients);
 	viewChart->setChart(&chart);
 
 	cout << "regression simple" << endl;
@@ -101,9 +101,7 @@ void QControlView::regressionOptimalM()
 		return;
 	}
 
-	// plotting of function and datapoints
-
-	// init member for plotting
+	// init member for plotting function
 	shared_ptr<QViewChart> viewChart = make_shared<QViewChart>();
 	connect( viewChart.get(), SIGNAL( closeWindow(shared_ptr<QViewChart>) ), this, SLOT( closeChart(shared_ptr<QViewChart>) ) );
 	// for saving and deleting - controlling of all chartviews
@@ -114,11 +112,11 @@ void QControlView::regressionOptimalM()
 
 	// painting
 	viewChart->show();
-	paintingDatapoints(viewChart, chart, dataPoints);
-	paintingFunctionCurve(viewChart, chart, coefficients);
+	paintingDatapoints(chart, dataPoints);
+	paintingFunctionCurve(chart, coefficients);
 	viewChart->setChart(&chart);
 
-	// plotting error curves by test and training sets
+	// init member for plotting error curves
 	shared_ptr<QViewChart> viewError = make_shared<QViewChart>();
 	connect( viewError.get(), SIGNAL( closeWindow(shared_ptr<QViewChart>) ), this, SLOT( closeChart(shared_ptr<QViewChart>) ) );
 	charts.insert(viewError);
@@ -126,30 +124,11 @@ void QControlView::regressionOptimalM()
 	XYChart chartError(1, 1);
 	chartdirector.createChart(chartError, "ERMS Training and Test", "m", "erms");
 
+	// painting
 	viewError->show();
-
-	 // error
-	double* mValues = new double[mMax];
-	double* ermsTrainingValues = new double[mMax];
-	double* ermsTestValues = new double[mMax];
-
-	for(unsigned int i = 0; i < mMax; ++i)
-	{
-		mValues[i] = i;
-		ermsTrainingValues[i] = erms_training[i];
-		ermsTestValues[i] = erms_test[i];
-	}
-
-	chartdirector.addPlot(chartError, mValues, ermsTrainingValues, mMax);
-	chartdirector.addLine(chartError, mValues, ermsTrainingValues, mMax, 0x009900);
-	chartdirector.addPlot(chartError, mValues, ermsTestValues, mMax); 
-	chartdirector.addLine(chartError, mValues, ermsTestValues, mMax, 0x000099);
-
+	paintingErrorCurve(chartError, erms_training, 0x009900);
+	paintingErrorCurve(chartError, erms_test, 0x000099);
 	viewError->setChart(&chartError);
-
-	delete[] mValues;
-	delete[] ermsTrainingValues;
-	delete[] ermsTestValues;
 }
 
 void QControlView::regressionLambda()
@@ -233,7 +212,7 @@ vector<DataPoint> QControlView::calculateTestPointsForGraphic(vector<double> coe
 	return points;
 }
 
-void QControlView::paintingDatapoints(shared_ptr<QViewChart> view, XYChart& chart, const vector<DataPoint>& points)
+void QControlView::paintingDatapoints(XYChart& chart, const vector<DataPoint>& points)
 {
 	unsigned int nPoints = points.size();
 
@@ -249,7 +228,7 @@ void QControlView::paintingDatapoints(shared_ptr<QViewChart> view, XYChart& char
 	delete[] tValues;
 }
 
-void QControlView::paintingFunctionCurve(shared_ptr<QViewChart> view, XYChart& chart, vector<double> coefficients)
+void QControlView::paintingFunctionCurve(XYChart& chart, vector<double>& coefficients)
 {
 	// for painting curve of function it´s necessary to have many datapoints
 	unsigned int n = 50;
@@ -263,4 +242,23 @@ void QControlView::paintingFunctionCurve(shared_ptr<QViewChart> view, XYChart& c
 
 	delete[] xValues;
 	delete[] tValues;
+}
+
+void QControlView::paintingErrorCurve(XYChart& chart, vector<double>& errors, int color)
+{
+	unsigned int size = errors.size();
+	double* mValues = new double[size];
+	double* ermsValues = new double[size];
+
+	for(unsigned int i = 0; i < size; ++i)
+	{
+		mValues[i] = i;
+		ermsValues[i] = errors[i];
+	}
+
+	chartdirector.addPlot(chart, mValues, ermsValues, size);
+	chartdirector.addLine(chart, mValues, ermsValues, size, color);
+
+	delete[] mValues;
+	delete[] ermsValues;
 }

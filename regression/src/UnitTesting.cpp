@@ -340,14 +340,15 @@ void UnitTesting::test_detectOptimalByCalcErms()
 	generator.generateDataSinNoise(number, testDatapoints);
 	// get data points from dataimporter by book example
 	DataImporter importer;
-	QString path = "../data/testmaterial/buch.txt";
+	QString path = "../data/buch.txt";
 	importer.getDataPoints(path, trainingDatapoints);
 
+	cout << "10 datapoints -> M = 10 error has to be equal zero!" << endl << endl;
 	// lineare regression
 	for( unsigned int m = 1; m < mMax; ++m )
 	{
 		// koeffizienten berechnen anhand von training datapoints
-		vector<double> coefficients = regression.calculateCoefficients(m, trainingDatapoints);
+		vector<double> coefficients = regression.calculateCoefficientsBigFloat(m, trainingDatapoints);
 		// fehler berechnen für trainingset und testset
 		double ermsTr = regularization.calcErms(trainingDatapoints, coefficients);
 		erms_training[m] = ermsTr;
@@ -362,4 +363,38 @@ void UnitTesting::test_detectOptimalByCalcErms()
 		//erms_test[m] = ermsTe;
 		//cout << "ERMS Test: " << ermsTe << endl << endl;
 	}
+}
+
+void UnitTesting::test_regulateByLambda()
+{
+	unsigned int number = 90;
+	vector<DataPoint> testDatapoints(number);
+	vector<DataPoint> trainingDatapoints(10);
+	
+	// datenpunkte generieren fürs testen
+	DataGenerator generator;
+	generator.generateDataSinNoise(number, testDatapoints);
+	// get data points from dataimporter by book example
+	DataImporter importer;
+	QString path = "../data/buch.txt";
+	importer.getDataPoints(path, trainingDatapoints);
+
+	Regularization regularization;
+	double error;
+	int m = 11;
+	int minLambda = -1000;
+	vector<double> coefficients = regularization.regulateByLambda(testDatapoints, trainingDatapoints, m, minLambda, error);
+
+	cout << "Minimum error which can be reached (0.171807) = " << error << endl;
+	cout << "Coefficient 1 (0.349545) = " << coefficients[0] << endl;
+	cout << "Coefficient 2 (4.98371) = " << coefficients[1] << endl;
+	cout << "Coefficient 3 (-3.43716) = " << coefficients[2] << endl;
+	cout << "Coefficient 4 (-24.6274) = " << coefficients[3] << endl;
+	cout << "Coefficient 5 (-1.64473) = " << coefficients[4] << endl;
+	cout << "Coefficient 6 (32.0439) = " << coefficients[5] << endl;
+	cout << "Coefficient 7 (34.1729) = " << coefficients[6] << endl;
+	cout << "Coefficient 8 (-3.13804) = " << coefficients[7] << endl;
+	cout << "Coefficient 9 (-47.7881) = " << coefficients[8] << endl;
+	cout << "Coefficient 10 (-46.0242) = " << coefficients[9] << endl;
+	cout << "Coefficient 11 (55.3655) = " << coefficients[10] << endl;
 }

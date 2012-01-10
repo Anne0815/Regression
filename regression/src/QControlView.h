@@ -27,8 +27,8 @@ private:
 	void datapoints2doublepointer(const vector<DataPoint>& datapoints, double* x, double* t);
 	vector<DataPoint> calculateTestPointsForGraphic(vector<double> coefficients, unsigned int& nPoints, double maxX, double minX);
 
-	void paintingDatapoints(XYChart& chart, const vector<DataPoint>& points);
-	void paintingFunctionCurve(XYChart& chart, vector<double>& coefficients);
+	void paintingDatapoints(XYChart& chart, const vector<DataPoint>& points, int color);
+	void paintingFunctionCurve(XYChart& chart, vector<double>& coefficients, int color);
 	void paintingErrorCurve(XYChart& chart, vector<double>& errors, int color);
 
 	Controller controller;

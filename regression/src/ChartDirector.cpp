@@ -28,22 +28,22 @@ void ChartDirector::createChart(XYChart& chart, const char* title, const char* x
 	//chart.xAxis()->setDateScale(0.0, 1.0);
 }
 
-void ChartDirector::addPlot(XYChart& chart, double* xValues, double* yValues, unsigned int& number)
+void ChartDirector::addPlot(XYChart& chart, double* xValues, double* yValues, unsigned int& number, int color)
 {
 	// add a scatter layer
 	DoubleArray xd(xValues, number);
     DoubleArray td(yValues, number);
 	
-	chart.addScatterLayer(xd, td, "Measurement", Chart::CircleShape, 3, 0x000000);
+	chart.addScatterLayer(xd, td, "Measurement", Chart::CircleShape, 3, color);
 }
 
-void ChartDirector::addCurve(XYChart& chart, double* xValues, double* yValues, unsigned int& number)
+void ChartDirector::addCurve(XYChart& chart, double* xValues, double* yValues, unsigned int& number, int color)
 {
 	SplineLayer* spline = chart.addSplineLayer();
 	DoubleArray xd(xValues, number);
 	DoubleArray td(yValues, number);
 	spline->setXData(xd);
-	spline->addDataSet(td, 0xffff00, "Curve");
+	spline->addDataSet(td, color, "Curve");
 }
 
 void ChartDirector::addLine(XYChart& chart, double* xValues, double* yValues, unsigned int& number, int color)

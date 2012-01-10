@@ -26,6 +26,7 @@ public:
 
 	DLL void test_calcErms();
 	DLL void test_detectOptimalByCalcErms();
+	DLL void test_regulateByLambda();
 
 private:
 	void generateMatrixAndVector(vector<vector<double>>& matrix, vector<double>& v);

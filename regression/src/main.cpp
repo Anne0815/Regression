@@ -20,8 +20,9 @@ void unittesting()
 	//ui.test_solveLinearEquationByGaussBigFloat();
 	//ui.test_bigfloatOperatorOverloading();
 	//ui.test_solveLinearEquationByGauss();
-	ui.test_calcErms();
+	//ui.test_calcErms();
 	//ui.test_detectOptimalByCalcErms();
+	ui.test_regulateByLambda();
 }
 
 
@@ -88,7 +89,7 @@ int main( int argc, char* argv[] )
 	QControlView controlview;
 	
 	// testing
-	unittesting();
+	//unittesting();
 
 	Controller controller;
 

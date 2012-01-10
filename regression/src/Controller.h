@@ -22,6 +22,9 @@ public:
 
 	// for checking correctness of calculating with lambda (=test with bookvalues)
 	DLL vector<double> linearRegressionByLambda( vector<DataPoint>& datapoints );
+
+private:
+	void separateTrainingAndTestDatapoints(vector<DataPoint>& datapoints, vector<DataPoint>& testDatapoints, const unsigned int ratio);
 };
 
 #endif

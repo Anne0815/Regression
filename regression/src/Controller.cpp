@@ -35,36 +35,25 @@ vector<double> Controller::linearRegressionByOptimalM( vector<DataPoint>& datapo
 
 vector<double> Controller::linearRegressionByOptimalM( vector<DataPoint>& datapoints, vector<double>& ermsTraining, vector<double>& ermsTest, const unsigned int mMax, const unsigned int mMin )
 {
-	unsigned int number = datapoints.size();
-	// ca 10%
+	// separate training and test set of datapoints
 	unsigned int ratio = 10;
-	vector<DataPoint> trainingDatapoints(number / ratio);
+	vector<DataPoint> trainingDatapoints(datapoints.size() / ratio);
+	separateTrainingAndTestDatapoints(datapoints, trainingDatapoints, ratio);
+
 	// saving results
 	vector<vector<double>> coefficientsVectors(mMax);
-
-	// linear regression, optimization
-	//LinearRegression regression;
-	Regularization regularization;
 
 	// optimal m, delta between errors
 	unsigned int optimal_M;
 	double error = DBL_MAX;
 
-	// 10% for calculating coefficients, 90% for optimization
-	for(unsigned int i = 0; i < trainingDatapoints.size(); ++i)
-	{
-		unsigned int index = i * ratio;
-		trainingDatapoints[i] = datapoints[index];
-		index = index == 0 ? 0 : index -1;
-		datapoints.erase(datapoints.begin() + index);
-	}
+	Regularization regularization;
 
 	// linear regression
 	for( unsigned int m = mMin; m < mMax; ++m )
 	{
 		// calculation coeeficients by training datapoints
-
-		vector<double> coefficients = linearRegression(trainingDatapoints, m); //regression.calculateCoefficients(m, trainingDatapoints);
+		vector<double> coefficients = linearRegression(trainingDatapoints, m);
 
 		// error for both sets and saving errors and coefficients
 		double ermsTr = regularization.calcErms(trainingDatapoints, coefficients);
@@ -91,25 +80,27 @@ vector<double> Controller::linearRegressionByOptimalM( vector<DataPoint>& datapo
 
 vector<double> Controller::linearRegressionByLambda(vector<DataPoint>& datapoints)
 {
-	LinearRegression linReg;
+	// separate training and test set of datapoints
+	unsigned int ratio = 10;
+	vector<DataPoint> trainingDatapoints(datapoints.size() / ratio);
+	separateTrainingAndTestDatapoints(datapoints, trainingDatapoints, ratio);
 
-	double lambda_1 = -18.0;
-	double lambda_2 = log(18.0);
+	Regularization regularization;
+	unsigned int maxM = 10;
+	int minLambda = -1000;
+	return regularization.detectOptimalMByLambda(datapoints,trainingDatapoints, maxM, minLambda);
+}
+
+void Controller::separateTrainingAndTestDatapoints(vector<DataPoint>& datapoints, vector<DataPoint>& trainingDatapoints, const unsigned int ratio)
+{
+	unsigned int nTraining = datapoints.size() / ratio;
 	
-	double lambda_3 = exp(-18.0);
-	double lambda_4 = exp( lambda_2 );
-
-	/*vector<double> c_1 = linReg.calculateCoefficientsBigFloatLambda(10, datapoints, lambda_1);
-	vector<double> c_2 = linReg.calculateCoefficientsBigFloatLambda(10, datapoints, lambda_2);*/
-	vector<double> c_3 = linReg.calculateCoefficientsBigFloatLambda(10, datapoints, lambda_3);
-	//vector<double> c_4 = linReg.calculateCoefficientsBigFloatLambda(10, datapoints, lambda_4);
-
-	//cout << "-18" << '\t' << "log(-18.0)" << '\t' << "exp(-18)" << '\t' << "exp( log(-18) )" << endl << endl;
-	for(int i = 0; i < 10; ++i)
+	// 10% for calculating coefficients, 90% for optimization and proofing of correctness
+	for(unsigned int i = 0; i < nTraining; ++i)
 	{
-		//cout << c_1[i] << '\t' << c_3[i] << endl;
-		cout << c_3[i] << endl;
+		unsigned int index = i * ratio;
+		trainingDatapoints[i] = datapoints[index];
+		index = index == 0 ? 0 : index - 1;
+		datapoints.erase(datapoints.begin() + index);
 	}
-
-	return vector<double>(0);
 }

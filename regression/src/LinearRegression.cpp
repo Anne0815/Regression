@@ -76,6 +76,23 @@ vector<double> LinearRegression::calculateCoefficientsBigFloat(unsigned int m, c
 	return gauss.solveLinearEquationByBigFloat(matrixBigFloat, tValuesBigFloat);
 }
 
+vector<double> LinearRegression::calculateCoefficientsLambda(unsigned int m, const vector<DataPoint>& dataPoints, const double lambda)
+{
+	matrix.clear();
+	matrix.resize(m);
+
+	for(unsigned int i = 0; i < m; ++i)
+		matrix[i] = vector<double>(m, 0.0);
+
+	xValues.clear();
+	tValues.clear();
+	xValues.resize((m*2), 0.0);
+	tValues.resize(m, 0.0);
+
+	createMatrixLinearEquationsSystemLambda( dataPoints, m, lambda );
+	return gauss.solveLinearEquationByBigFloat(matrix, tValues);
+}
+
 vector<double> LinearRegression::calculateCoefficientsBigFloatLambda(unsigned int m, const vector<DataPoint>& dataPoints, const double lambda)
 {
 	matrixBigFloat.clear();
@@ -101,6 +118,23 @@ void LinearRegression::createMatrixLinearEquationsSystemBigFloat(const vector<Da
 	{
 		for( unsigned int column = 0; column < m; ++column )
 			matrixBigFloat[row][column] = xValuesBigFloat[row+column];
+	}
+}
+
+void LinearRegression::createMatrixLinearEquationsSystemLambda(const vector<DataPoint>& dataPoints, unsigned int m, double lambda)
+{
+	createLookUpTables(dataPoints);
+
+	for( unsigned int row = 0; row < m; ++row )
+	{
+		for( unsigned int column = 0; column < m; ++column )
+		{
+			matrix[row][column] = xValues[row+column];
+
+			//cout << "lambda = " << lambda.getdouble() << endl;
+			if( row == column )
+				matrix[row][column] += lambda;
+		}
 	}
 }
 

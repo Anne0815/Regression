@@ -20,7 +20,7 @@ public:
 	// for drawing error plot
 	DLL vector<double> linearRegressionByOptimalM( vector<DataPoint>& datapoints, vector<double>& ermsTraining, vector<double>& ermsTest, const unsigned int mMax, const unsigned int mMin );
 
-	// for checking correctness of calculating with lambda (=test with bookvalues)
+	// regulate size of coefficients over penalizing by lambda
 	DLL vector<double> linearRegressionByLambda( vector<DataPoint>& datapoints );
 
 private:

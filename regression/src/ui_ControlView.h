@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'ControlView.ui'
 **
-** Created: Fri 6. Jan 13:55:27 2012
+** Created: Tue 10. Jan 15:44:05 2012
 **      by: Qt User Interface Compiler version 4.7.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -40,8 +40,6 @@ public:
     QMenuBar *menubar;
     QMenu *menuData;
     QMenu *menuRegression;
-    QMenu *menuUnittest;
-    QMenu *menuLinear_Equation;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -79,10 +77,6 @@ public:
         menuData->setObjectName(QString::fromUtf8("menuData"));
         menuRegression = new QMenu(menubar);
         menuRegression->setObjectName(QString::fromUtf8("menuRegression"));
-        menuUnittest = new QMenu(menubar);
-        menuUnittest->setObjectName(QString::fromUtf8("menuUnittest"));
-        menuLinear_Equation = new QMenu(menuUnittest);
-        menuLinear_Equation->setObjectName(QString::fromUtf8("menuLinear_Equation"));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -90,18 +84,11 @@ public:
 
         menubar->addAction(menuData->menuAction());
         menubar->addAction(menuRegression->menuAction());
-        menubar->addAction(menuUnittest->menuAction());
         menuData->addAction(actionOpen);
         menuData->addAction(actionGenerate);
         menuRegression->addAction(actionSimple);
         menuRegression->addAction(actionOptimal_M);
         menuRegression->addAction(actionLambda);
-        menuUnittest->addAction(menuLinear_Equation->menuAction());
-        menuUnittest->addAction(actionOperator_overload_Big_Float);
-        menuUnittest->addAction(actionError_Mean_Square);
-        menuLinear_Equation->addAction(actionCramer_Rule);
-        menuLinear_Equation->addAction(actionGauss);
-        menuLinear_Equation->addAction(actionGauss_Big_Number);
 
         retranslateUi(MainWindow);
 
@@ -123,8 +110,6 @@ public:
         actionError_Mean_Square->setText(QApplication::translate("MainWindow", "Error Mean Square", 0, QApplication::UnicodeUTF8));
         menuData->setTitle(QApplication::translate("MainWindow", "Data", 0, QApplication::UnicodeUTF8));
         menuRegression->setTitle(QApplication::translate("MainWindow", "Regression", 0, QApplication::UnicodeUTF8));
-        menuUnittest->setTitle(QApplication::translate("MainWindow", "Unittest", 0, QApplication::UnicodeUTF8));
-        menuLinear_Equation->setTitle(QApplication::translate("MainWindow", "Solve Linear Equation", 0, QApplication::UnicodeUTF8));
     } // retranslateUi
 
 };

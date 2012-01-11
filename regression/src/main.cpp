@@ -54,20 +54,6 @@ void compareCoefficientsDoubleBigFloat( Controller& controller, QControlView& vi
 }
 
 
-void lambda(Controller& controller, QControlView& view)
-{
-	// datapoints from book
-	vector<DataPoint> dataPoints;
-	unsigned int number = 10;
-	unsigned int m = 10;
-
-	// get data points from dataimporter
-	DataImporter importer;
-	importer.getDataPoints(view.openDirectory(), dataPoints);
-
-	vector<double> coefficients = controller.linearRegressionByLambda(dataPoints);
-}
-
 void fillOrigin( vector<double>& origin )
 {
 	origin.push_back(0.35);
@@ -92,10 +78,7 @@ int main( int argc, char* argv[] )
 	//unittesting();
 
 	Controller controller;
-
-	// first attempt
-	//lambda(controller, controlview);
-
+	
 	//// comparing calculating big number vs simple double
 	//vector<double> origin;
 	//fillOrigin(origin);

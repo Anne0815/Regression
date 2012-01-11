@@ -143,6 +143,9 @@ void QControlView::regressionLambda()
 	vector<double> coefficients = controller.linearRegressionByLambda(dataPoints);
 
 	cout << "regression lambda" << endl;
+	cout << "optimal m = " << coefficients.size() << endl;
+	for(unsigned int i = 0; i < coefficients.size(); ++i)
+		cout << "w" << i << " = " << coefficients[i] << endl;
 
 	// init member for plotting function
 	shared_ptr<QViewChart> viewChart = make_shared<QViewChart>();
